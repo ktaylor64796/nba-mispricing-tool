@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NBA Mispricing Tool</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="container">
+
+    <h1>NBA Mispricing Tool</h1>
+    <p class="sub">Overrated vs Underrated based on performance vs expectation</p>
+
+    <input id="search" placeholder="Search player..." />
+
+    <div class="grid">
+      <div>
+        <h2>Players</h2>
+        <div id="list"></div>
+      </div>
+
+      <div>
+        <h2>Player Card</h2>
+        <div id="card">
+          <p>Select a player</p>
+        </div>
+
+        <button onclick="downloadCard()">Download Share Card</button>
+      </div>
+    </div>
+
+    <h2>Compare Players</h2>
+    <div class="compare">
+      <select id="p1"></select>
+      <select id="p2"></select>
+      <button onclick="compare()">Compare</button>
+    </div>
+
+    <div id="compareResult"></div>
+
+  </div>
+
+<script src="data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

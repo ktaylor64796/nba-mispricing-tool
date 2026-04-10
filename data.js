@@ -342,7 +342,7 @@ const players = [
 {rank:420,name:"Jabari Smith Jr.",performance:26.07291356,expectation:60.79063631,trueValue:-34.71772275},
 {rank:421,name:"Joel Embiid",performance:28.49414049,expectation:64.33907754,trueValue:-35.84493706},
 {rank:422,name:"Herbert Jones",performance:12.01326461,expectation:48.18364359,trueValue:-36.17037899},
-{rank:423,name:"Paolo Banchero",performance:40.34312917,expectation:77.6912377,trueValue:-37.34810853}
+{rank:423,name:"Paolo Banchero",performance:40.34312917,expectation:77.6912377,trueValue:-37.34810853},
 
   {rank:424,name:"Chet Holmgren",performance:26.66858008,expectation:80.04456262,trueValue:-53.37598254}
 ];

@@ -1,0 +1,65 @@
+const players = [
+  {rank:1,name:"Nikola Jokić",performance:100,expectation:47.42,trueValue:52.58},
+  {rank:2,name:"Nikola Vučević",performance:47.78,expectation:11.07,trueValue:36.71},
+  {rank:3,name:"Jalen Duren",performance:46.41,expectation:11.37,trueValue:35.04},
+  {rank:4,name:"James Harden",performance:67.64,expectation:36.71,trueValue:30.94},
+  {rank:5,name:"Ivica Zubac",performance:60.96,expectation:30.69,trueValue:30.27},
+  {rank:6,name:"Alondes Williams",performance:37.96,expectation:8.04,trueValue:29.92},
+  {rank:7,name:"Tyler Herro",performance:55.06,expectation:25.93,trueValue:29.13},
+  {rank:8,name:"Amen Thompson",performance:49.03,expectation:21.65,trueValue:27.38},
+  {rank:9,name:"Coby White",performance:37.01,expectation:11.72,trueValue:25.29},
+  {rank:10,name:"Walker Kessler",performance:34.06,expectation:9.21,trueValue:24.85},
+
+  {rank:11,name:"Mark Williams",performance:34.22,expectation:9.90,trueValue:24.31},
+  {rank:12,name:"Giannis Antetokounmpo",performance:84.38,expectation:60.38,trueValue:23.99},
+  {rank:13,name:"Norman Powell",performance:36.42,expectation:12.62,trueValue:23.79},
+  {rank:14,name:"Trae Young",performance:56.39,expectation:33.59,trueValue:22.80},
+  {rank:15,name:"Quentin Grimes",performance:33.29,expectation:10.50,trueValue:22.79},
+
+  {rank:16,name:"Tari Eason",performance:31.79,expectation:9.44,trueValue:22.35},
+  {rank:17,name:"Anfernee Simons",performance:35.12,expectation:13.46,trueValue:21.66},
+  {rank:18,name:"Tyus Jones",performance:31.06,expectation:9.54,trueValue:21.52},
+  {rank:19,name:"Kristaps Porziņģis",performance:36.04,expectation:15.21,trueValue:20.83},
+  {rank:20,name:"Domantas Sabonis",performance:60.22,expectation:39.83,trueValue:20.39},
+
+  {rank:21,name:"Austin Reaves",performance:46.27,expectation:25.93,trueValue:20.34},
+  {rank:22,name:"Tobias Harris",performance:32.51,expectation:12.44,trueValue:20.06},
+  {rank:23,name:"Collin Sexton",performance:31.59,expectation:11.57,trueValue:20.02},
+  {rank:24,name:"Harrison Barnes",performance:31.20,expectation:11.46,trueValue:19.75},
+  {rank:25,name:"Keon Ellis",performance:27.73,expectation:8.88,trueValue:18.84},
+
+  {rank:26,name:"Chris Paul",performance:35.83,expectation:17.05,trueValue:18.77},
+  {rank:27,name:"Guerschon Yabusele",performance:27.68,expectation:9.30,trueValue:18.38},
+  {rank:28,name:"DeMar DeRozan",performance:42.29,expectation:24.08,trueValue:18.21},
+  {rank:29,name:"Payton Pritchard",performance:45.50,expectation:27.64,trueValue:17.86},
+  {rank:30,name:"Mike Conley",performance:28.83,expectation:11.21,trueValue:17.61},
+
+  {rank:101,name:"Aaron Holiday",performance:18.32,expectation:8.54,trueValue:9.78},
+  {rank:102,name:"Scotty Pippen Jr.",performance:33.60,expectation:24.11,trueValue:9.49},
+  {rank:103,name:"Jordan Poole",performance:35.49,expectation:26.16,trueValue:9.33},
+  {rank:104,name:"Fred VanVleet",performance:31.58,expectation:22.65,trueValue:8.93},
+  {rank:105,name:"Collin Gillespie",performance:18.13,expectation:9.20,trueValue:8.93},
+
+  {rank:300,name:"Josh Green",performance:14.05,expectation:18.86,trueValue:-4.81},
+  {rank:301,name:"Luke Kornet",performance:30.72,expectation:35.54,trueValue:-4.82},
+  {rank:302,name:"Micah Potter",performance:10.89,expectation:15.73,trueValue:-4.84},
+  {rank:303,name:"Adem Bona",performance:18.45,expectation:23.32,trueValue:-4.87},
+  {rank:304,name:"E.J. Liddell",performance:10.34,expectation:15.30,trueValue:-4.96},
+
+  {rank:305,name:"Shai Gilgeous-Alexander",performance:94.95,expectation:100,trueValue:-5.05},
+  {rank:306,name:"Kobe Brown",performance:11.16,expectation:16.24,trueValue:-5.07},
+  {rank:307,name:"Tristan Da Silva",performance:19.14,expectation:24.25,trueValue:-5.11},
+  {rank:308,name:"Duncan Robinson",performance:24.26,expectation:29.40,trueValue:-5.13},
+  {rank:309,name:"Jett Howard",performance:11.67,expectation:16.80,trueValue:-5.14},
+
+  {rank:310,name:"Dyson Daniels",performance:45.29,expectation:50.49,trueValue:-5.20},
+  {rank:311,name:"Kobe Bufkin",performance:11.15,expectation:16.37,trueValue:-5.22},
+  {rank:312,name:"Isaiah Collier",performance:18.70,expectation:23.93,trueValue:-5.22},
+  {rank:313,name:"Grant Williams",performance:13.77,expectation:19.00,trueValue:-5.23},
+  {rank:314,name:"Anthony Edwards",performance:68.80,expectation:74.03,trueValue:-5.24},
+
+  {rank:375,name:"Ja Morant",performance:39.03,expectation:52.69,trueValue:-13.65},
+  {rank:400,name:"Jalen Williams",performance:56.67,expectation:78.03,trueValue:-21.36},
+  {rank:415,name:"LeBron James",performance:70.22,expectation:99.33,trueValue:-29.11},
+  {rank:424,name:"Chet Holmgren",performance:26.67,expectation:80.04,trueValue:-53.38}
+];

@@ -7,25 +7,40 @@ const p2 = document.getElementById("p2");
 
 const compareResult = document.getElementById("compareResult");
 
-let currentView = "all"; // all | underrated | overrated
-
 // =========================
-// RENDER LIST
+// RENDER TOP + BOTTOM 10
 // =========================
-function render(playersData) {
+function render() {
   list.innerHTML = "";
 
-  playersData.forEach(p => {
+  const sorted = [...players].sort((a, b) => b.trueValue - a.trueValue);
+
+  const top10 = sorted.slice(0, 10);
+  const bottom10 = sorted.slice(-10).reverse();
+
+  // TOP 10
+  const topHeader = document.createElement("div");
+  topHeader.innerHTML = "<h3>Top 10 Underrated</h3>";
+  list.appendChild(topHeader);
+
+  top10.forEach(p => {
     const div = document.createElement("div");
+    div.className = "player underrated";
+    div.innerHTML = `${p.name} (${p.trueValue.toFixed(2)})`;
 
-    const type = p.trueValue >= 0 ? "underrated" : "overrated";
+    div.onclick = () => showPlayer(p);
+    list.appendChild(div);
+  });
 
-    div.className = "player " + type;
+  // BOTTOM 10
+  const bottomHeader = document.createElement("div");
+  bottomHeader.innerHTML = "<h3 style='margin-top:20px;'>Top 10 Overrated</h3>";
+  list.appendChild(bottomHeader);
 
-    div.innerHTML = `
-      <span class="name">${p.name}</span>
-      <span class="value">${p.trueValue.toFixed(2)}</span>
-    `;
+  bottom10.forEach(p => {
+    const div = document.createElement("div");
+    div.className = "player overrated";
+    div.innerHTML = `${p.name} (${p.trueValue.toFixed(2)})`;
 
     div.onclick = () => showPlayer(p);
     list.appendChild(div);
@@ -48,19 +63,29 @@ function showPlayer(p) {
 }
 
 // =========================
-// SEARCH
+// SEARCH (still searches full dataset)
 // =========================
 search.addEventListener("input", e => {
   const q = e.target.value.toLowerCase().trim();
 
   if (!q) {
-    render(players);
+    render();
     return;
   }
 
-  render(players.filter(p =>
+  const results = players.filter(p =>
     p.name.toLowerCase().includes(q)
-  ));
+  );
+
+  list.innerHTML = "";
+
+  results.forEach(p => {
+    const div = document.createElement("div");
+    div.className = "player " + (p.trueValue >= 0 ? "underrated" : "overrated");
+    div.innerHTML = `${p.name} (${p.trueValue.toFixed(2)})`;
+    div.onclick = () => showPlayer(p);
+    list.appendChild(div);
+  });
 });
 
 // =========================
@@ -84,7 +109,7 @@ function compare() {
 }
 
 // =========================
-// FILL DROPDOWNS
+// DROPDOWNS
 // =========================
 function fillSelects() {
   players.forEach(p => {
@@ -98,13 +123,13 @@ function fillSelects() {
     p2.appendChild(opt2);
   });
 
-  // IMPORTANT FIX: default selections
+  // default selections (IMPORTANT FIX)
   p1.value = players[0].name;
   p2.value = players[1].name;
 }
 
 // =========================
-// DOWNLOAD CARD (FIXED WRAP)
+// DOWNLOAD CARD
 // =========================
 function downloadCard() {
   const canvas = document.createElement("canvas");
@@ -113,17 +138,16 @@ function downloadCard() {
 
   const ctx = canvas.getContext("2d");
 
-  // background
   ctx.fillStyle = "#0b0f19";
   ctx.fillRect(0, 0, 800, 400);
 
   ctx.fillStyle = "white";
-  ctx.font = "24px Arial";
+  ctx.font = "22px Arial";
 
   const lines = card.innerText.split("\n");
 
   lines.forEach((line, i) => {
-    ctx.fillText(line, 50, 80 + i * 35);
+    ctx.fillText(line, 50, 80 + i * 30);
   });
 
   const link = document.createElement("a");
@@ -133,26 +157,7 @@ function downloadCard() {
 }
 
 // =========================
-// OPTIONAL FILTER BUTTONS (SAFE)
-// =========================
-function setView(type) {
-  currentView = type;
-
-  let filtered = players;
-
-  if (type === "underrated") {
-    filtered = players.filter(p => p.trueValue >= 0);
-  }
-
-  if (type === "overrated") {
-    filtered = players.filter(p => p.trueValue < 0);
-  }
-
-  render(filtered);
-}
-
-// =========================
 // INIT
 // =========================
-render(players);
+render();
 fillSelects();

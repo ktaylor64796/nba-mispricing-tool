@@ -6,10 +6,11 @@
     <title>NBA Value Index | Action Analytics</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
+        /* CSS STYLES */
         :root {
             --bg: #05060c;
             --panel: #11141d;
-            --accent: #42f5c5;
+            --accent: #42f5c5; /* Action Green */
             --text: #e9f4f1;
             --border: rgba(255,255,255,0.1);
             --overrated: #ff4d4d;
@@ -22,6 +23,7 @@
             margin: 0;
             padding: 20px;
             line-height: 1.5;
+            min-height: 100vh;
         }
 
         .wrapper { max-width: 900px; margin: 0 auto; }
@@ -84,6 +86,7 @@
         .mini-avatar img { width: 55px; height: 55px; border-radius: 50%; background: #222; object-fit: cover; }
         .mini-name { font-size: 0.8rem; font-weight: 700; margin-top: 8px; color: #ccc; }
 
+        /* Results Card */
         #main-display { display: none; border-left: 4px solid var(--accent); }
         .action-card { overflow: hidden; position: relative; }
         .card-header { height: 100px; position: relative; margin-bottom: 60px; border-radius: 12px; }
@@ -104,14 +107,28 @@
         .stat div { font-size: 1.6rem; font-weight: 900; }
         .score { font-size: 4.5rem; font-weight: 900; line-height: 1; margin: 10px 0; }
 
+        /* Compare */
         .compare-controls { display: flex; gap: 12px; align-items: center; margin-top: 20px; }
         select { flex: 1; background: #0b0f19; color: white; border: 1px solid var(--border); padding: 14px; border-radius: 8px; font-weight: 600; cursor: pointer; }
         .btn-action { background: var(--accent); color: black; border: none; padding: 14px 28px; font-weight: 900; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+        .btn-action:hover { transform: scale(1.05); filter: brightness(1.1); }
         
         .compare-visual { display: flex; justify-content: space-around; align-items: center; margin-top: 25px; background: rgba(0,0,0,0.3); padding: 30px; border-radius: 16px; border: 1px solid var(--border); }
         .comp-player { text-align: center; width: 40%; }
         .comp-photo { width: 90px; height: 90px; border-radius: 50%; border: 4px solid #333; margin-bottom: 12px; background: #1a1e2e; }
         .vs-divider { font-weight: 900; color: #444; font-size: 1.2rem; font-style: italic; }
+
+        /* Share/Embed Styles */
+        .copy-notice {
+            font-size: 0.6rem;
+            color: var(--accent);
+            margin-top: 5px;
+            display: none;
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
     </style>
 </head>
 <body>
@@ -131,7 +148,8 @@
         <div class="suggestion-grid" id="featured-grid"></div>
     </div>
 
-    <div id="main-display" class="panel action-card"></div>
+    <div id="main-display" class="panel action-card">
+        </div>
 
     <div class="panel">
         <h3 style="margin: 0; font-size: 0.8rem; color: var(--accent); letter-spacing: 2px; font-weight: 900;">HEAD-TO-HEAD VERDICT</h3>
@@ -143,9 +161,23 @@
         </div>
         <div id="compareResult"></div>
     </div>
+
+    <div style="margin-top: 60px; padding: 40px 20px; border-top: 1px solid var(--border); text-align: center;">
+        <h4 style="color: #444; margin-bottom: 10px; font-size: 0.8rem; letter-spacing: 1px;">WANT TO USE THIS TOOL?</h4>
+        <button onclick="toggleEmbed()" id="embedBtn" style="background: none; border: 1px solid #333; color: #888; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 0.7rem; font-weight: bold; transition: 0.2s;">
+            SHOW EMBED CODE
+        </button>
+        
+        <div id="embedSection" style="display: none; margin-top: 20px; position: relative;">
+            <p style="font-size: 0.7rem; color: #666; margin-bottom: 10px;">Copy and paste the code below to embed this calculator on your site.</p>
+            <textarea id="embedArea" readonly style="width: 100%; max-width: 500px; height: 80px; background: #000; color: var(--accent); border: 1px solid #333; font-family: monospace; font-size: 0.7rem; padding: 12px; border-radius: 8px; resize: none; outline: none; box-sizing: border-box;"></textarea>
+            <div id="copyNotice" class="copy-notice">Copied to clipboard!</div>
+        </div>
+    </div>
 </div>
 
 <script>
+    // COMPLETE PLAYER DATASET (424 Players)
     const players = [
         {rank:1,name:"Nikola Jokić",performance:100.00,expectation:47.42,trueValue:52.58,espnId:3112335},
         {rank:2,name:"Nikola Vučević",performance:47.78,expectation:11.07,trueValue:36.71,espnId:6478},
@@ -464,12 +496,15 @@
     const p1Select = document.getElementById("p1");
     const p2Select = document.getElementById("p2");
 
+    // Pre-defined suggestions for the grid on load
     const SUGGESTED_NAMES = ["Nikola Jokić", "LeBron James", "Shai Gilgeous-Alexander", "Chet Holmgren", "James Harden", "Victor Wembanyama"];
 
+    // HELPER FUNCTIONS
     function getHeadshot(id) {
         return id ? `https://a.espncdn.com/i/headshots/nba/players/full/${id}.png` : 'https://a.espncdn.com/combiner/i?img=/i/headshots/noplayer.png';
     }
 
+    // MAIN DISPLAY CARD FUNCTION
     function showPlayer(p) {
         const isUnder = p.trueValue >= 0;
         const color = isUnder ? 'var(--accent)' : 'var(--overrated)';
@@ -484,10 +519,12 @@
                 <div style="font-size: 0.7rem; font-weight: 900; color: #555; letter-spacing: 1px;">DATAPOINT #${p.rank}</div>
                 <h2 style="margin: 5px 0 0 0; font-weight: 900; font-size: 2rem;">${p.name.toUpperCase()}</h2>
                 <div style="color: ${color}; font-weight: 900; font-size: 0.9rem; margin-bottom: 15px; letter-spacing: 1px;">${isUnder ? 'GENUINELY UNDERRATED' : 'STATISTICALLY OVERRATED'}</div>
+                
                 <div class="stats-row">
                     <div class="stat"><small>PRODUCTION</small><div>${p.performance.toFixed(1)}</div></div>
                     <div class="stat"><small>EXPECTATION</small><div>${p.expectation.toFixed(1)}</div></div>
                 </div>
+                
                 <div style="border-top: 1px solid var(--border); padding-top: 25px;">
                     <small style="color: #666; font-weight: 900; letter-spacing: 1px;">THE VALUE GAP</small>
                     <div class="score" style="color: ${color}">${p.trueValue.toFixed(2)}</div>
@@ -498,6 +535,7 @@
         mainDisplay.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
+    // SUGGESTION GRID RENDERER
     function renderSuggestions(list) {
         featuredGrid.innerHTML = "";
         list.forEach(p => {
@@ -505,17 +543,22 @@
             div.className = "mini-card";
             div.onclick = () => showPlayer(p);
             div.innerHTML = `
-                <div class="mini-avatar"><img src="${getHeadshot(p.espnId)}"></div>
+                <div class="mini-avatar"><img src="${getHeadshot(p.espnId)}" onerror="this.src='https://a.espncdn.com/combiner/i?img=/i/headshots/noplayer.png'"></div>
                 <div class="mini-name">${p.name}</div>
             `;
             featuredGrid.appendChild(div);
         });
     }
 
+    // COMPARISON FUNCTION
     function runComparison() {
         const a = players.find(p => p.name === p1Select.value);
         const b = players.find(p => p.name === p2Select.value);
-        if(!a || !b) return;
+        
+        if (!a || !b) {
+            document.getElementById("compareResult").innerHTML = "<p style='text-align:center;color:#666;'>Select two players.</p>";
+            return;
+        }
 
         const winner = a.trueValue > b.trueValue ? a : b;
         const diff = Math.abs(a.trueValue - b.trueValue).toFixed(2);
@@ -542,6 +585,27 @@
         `;
     }
 
+    // EMBED FUNCTIONALITY
+    function toggleEmbed() {
+        const section = document.getElementById('embedSection');
+        const btn = document.getElementById('embedBtn');
+        const area = document.getElementById('embedArea');
+        
+        // IMPORTANT: Update this URL if your GitHub username or repo name changes
+        const toolUrl = "https://ktaylor64796.github.io/nba-mispricing-tool/";
+        
+        area.value = `<iframe src="${toolUrl}" width="100%" height="800px" frameborder="0" scrolling="no" style="border-radius:16px; box-shadow:0 20px 40px rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.1);"></iframe>`;
+
+        if (section.style.display === 'none') {
+            section.style.display = 'block';
+            btn.textContent = 'HIDE EMBED CODE';
+        } else {
+            section.style.display = 'none';
+            btn.textContent = 'SHOW EMBED CODE';
+        }
+    }
+
+    // Event Listener for the input field (Search)
     searchInput.addEventListener("input", (e) => {
         const q = e.target.value.toLowerCase().trim();
         if (!q) {
@@ -554,17 +618,35 @@
         renderSuggestions(matches);
     });
 
+    // Event Listener for click-to-copy
+    document.getElementById('embedArea')?.addEventListener('click', function() {
+        this.select();
+        document.execCommand('copy');
+        const notice = document.getElementById('copyNotice');
+        notice.style.display = 'block';
+        setTimeout(() => { notice.style.display = 'none'; }, 2000);
+    });
+
+    // WINDOW INITIALIZATION
     window.onload = () => {
+        // Render Featured Grid
         const featured = players.filter(p => SUGGESTED_NAMES.includes(p.name));
         renderSuggestions(featured);
+
+        // Sort and Populate Dropdowns A-Z
         const sorted = [...players].sort((a,b) => a.name.localeCompare(b.name));
         sorted.forEach(p => {
-            p1Select.add(new Option(p.name, p.name));
-            p2Select.add(new Option(p.name, p.name));
+            const opt1 = new Option(p.name, p.name);
+            const opt2 = new Option(p.name, p.name);
+            p1Select.add(opt1);
+            p2Select.add(opt2);
         });
+
+        // Set Default Comparison (matches article highlights)
         p1Select.value = "James Harden";
         p2Select.value = "LeBron James";
     };
 </script>
+
 </body>
 </html>

@@ -1,93 +1,42 @@
-:root {
-    --bg: #05060c;
-    --panel: #11141d;
-    --accent: #42f5c5;
-    --text: #e9f4f1;
-    --border: rgba(255,255,255,0.1);
+.compare-display {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 20px;
+    background: rgba(0,0,0,0.2);
+    padding: 20px;
+    border-radius: 12px;
 }
 
-body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
-    margin: 0;
+.compare-photo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid #333;
+    margin-bottom: 10px;
 }
 
-.wrapper { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
-
-.logo { font-weight: 900; letter-spacing: 2px; color: #666; margin-bottom: 10px; }
-.logo span { color: var(--accent); }
-
-h1 { font-size: 2.5rem; font-weight: 900; margin: 0; }
-h1 span { color: var(--accent); }
-
-.panel {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+.compare-value {
+    font-size: 1.8rem;
+    font-weight: 900;
 }
 
-input {
-    width: 100%;
-    background: #05060c;
-    border: 1px solid var(--border);
-    padding: 15px;
-    color: white;
-    border-radius: 8px;
-    font-size: 1.1rem;
+.vs-divider {
+    font-weight: 900;
+    color: #444;
+}
+
+.compare-controls {
+    display: flex;
+    gap: 10px;
     margin-bottom: 20px;
 }
 
-.player-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-}
-
-.mini-card {
-    background: rgba(255,255,255,0.03);
+select {
+    flex: 1;
+    background: #1a1e2e;
+    color: white;
+    border: 1px solid rgba(255,255,255,0.1);
     padding: 10px;
-    border-radius: 10px;
-    text-align: center;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.mini-card:hover { background: var(--accent); color: black; }
-
-.mini-avatar img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
-
-.action-card {
-    background: var(--panel);
-    border-radius: 20px;
-    overflow: hidden;
-    text-align: center;
-}
-
-.card-header { height: 120px; position: relative; margin-bottom: 50px; }
-.main-photo {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    border: 5px solid var(--panel);
-    position: absolute;
-    bottom: -40px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #222;
-}
-
-.gap-score { margin-top: 20px; border-top: 1px solid var(--border); padding-top: 15px; }
-.score { font-size: 3rem; font-weight: 900; }
-
-.btn-action {
-    background: var(--accent);
-    color: black;
-    border: none;
-    padding: 12px 24px;
-    font-weight: 900;
     border-radius: 4px;
-    cursor: pointer;
 }

@@ -75,26 +75,25 @@
         }
         .mini-card:hover { border-color: var(--accent); background: rgba(66, 245, 197, 0.05); }
         
-        .mini-avatar { width: 60px; height: 60px; margin: 0 auto; overflow: hidden; border-radius: 50%; background: #222; }
-        .mini-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .mini-avatar { 
+            width: 65px; height: 65px; 
+            margin: 0 auto; overflow: hidden; 
+            border-radius: 50%; background: #222;
+        }
+        .mini-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
         .mini-name { font-size: 0.8rem; font-weight: 700; margin-top: 8px; color: #ccc; }
 
         #main-display { display: none; }
         .card-header { height: 100px; position: relative; margin-bottom: 60px; border-radius: 12px; }
         
         .photo-container {
-            width: 130px;
-            height: 130px;
-            border-radius: 50%;
-            border: 6px solid var(--panel);
-            position: absolute;
-            bottom: -50px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #1a1e2e;
+            width: 140px; height: 140px;
+            border-radius: 50%; border: 6px solid var(--panel);
+            position: absolute; bottom: -50px; left: 50%;
+            transform: translateX(-50%); background: #1a1e2e;
             overflow: hidden;
         }
-        .main-photo { width: 100%; height: 100%; object-fit: cover; }
+        .main-photo { width: 100%; height: 100%; object-fit: cover; display: block; }
         
         .card-body { text-align: center; padding: 0 10px 20px; }
         
@@ -116,7 +115,7 @@
         
         .compare-visual { display: flex; justify-content: space-around; align-items: center; margin-top: 25px; background: rgba(0,0,0,0.3); padding: 30px; border-radius: 16px; border: 1px solid var(--border); }
         .comp-player { text-align: center; width: 40%; }
-        .comp-photo-circle { width: 90px; height: 90px; border-radius: 50%; border: 4px solid #333; margin-bottom: 12px; overflow: hidden; display: inline-block; }
+        .comp-photo-circle { width: 90px; height: 90px; border-radius: 50%; border: 4px solid #333; margin-bottom: 12px; overflow: hidden; display: inline-block; background: #1a1e2e; }
         .comp-photo-circle img { width: 100%; height: 100%; object-fit: cover; }
     </style>
 </head>
@@ -152,7 +151,7 @@
 </div>
 
 <script>
-    // FULL PLAYER DATASET (Confirmed 424 Players)
+    // FULL PLAYER DATASET (Mapping Missing IDs)
     const players = [
         {rank:1,name:"Nikola Jokić",performance:100.00,expectation:47.42,trueValue:52.58,espnId:3112335},
         {rank:2,name:"Nikola Vučević",performance:47.78,expectation:11.07,trueValue:36.71,espnId:6478},
@@ -160,30 +159,19 @@
         {rank:4,name:"James Harden",performance:67.64,expectation:36.71,trueValue:30.94,espnId:3992},
         {rank:5,name:"Ivica Zubac",performance:60.96,expectation:30.69,trueValue:30.27,espnId:4014763},
         {rank:6,name:"Alondes Williams",performance:37.96,expectation:8.04,trueValue:29.92,espnId:4683522},
-        {rank:7,name:"Tyler Herro",performance:55.06,expectation:25.93,trueValue:29.13,espnId:4395627},
-        {rank:8,name:"Amen Thompson",performance:49.03,expectation:21.65,trueValue:27.38,espnId:4432166},
-        {rank:9,name:"Coby White",performance:37.01,expectation:11.72,trueValue:25.29,espnId:4395625},
         {rank:10,name:"Walker Kessler",performance:34.06,expectation:9.21,trueValue:24.85,espnId:4432160},
-        {rank:11,name:"Mark Williams",performance:34.22,expectation:9.90,trueValue:24.31,espnId:4432161},
-        {rank:12,name:"Giannis Antetokounmpo",performance:84.38,expectation:60.38,trueValue:23.99,espnId:3032977},
-        {rank:13,name:"Norman Powell",performance:36.42,expectation:12.62,trueValue:23.79,espnId:2595516},
-        {rank:14,name:"Trae Young",performance:56.39,expectation:33.59,trueValue:22.80,espnId:4277905},
-        {rank:15,name:"Quentin Grimes",performance:33.29,expectation:10.50,trueValue:22.79,espnId:4397024},
-        {rank:16,name:"Tari Eason",performance:31.79,expectation:9.44,trueValue:22.35,espnId:4683742},
-        {rank:17,name:"Anfernee Simons",performance:35.12,expectation:13.46,trueValue:21.66,espnId:4351854},
-        {rank:18,name:"Tyus Jones",performance:31.06,expectation:9.54,trueValue:21.52,espnId:3135046},
-        {rank:19,name:"Kristaps Porziņģis",performance:36.04,expectation:15.21,trueValue:20.83,espnId:3102531},
         {rank:20,name:"Domantas Sabonis",performance:60.22,expectation:39.83,trueValue:20.39,espnId:3135044},
         {rank:21,name:"Austin Reaves",performance:46.27,expectation:25.93,trueValue:20.34,espnId:4066447},
-        {rank:22,name:"Tobias Harris",performance:32.51,expectation:12.44,trueValue:20.06,espnId:6440},
-        {rank:23,name:"Collin Sexton",performance:31.59,expectation:11.57,trueValue:20.02,espnId:4277811},
-        {rank:25,name:"Keon Ellis",performance:27.73,expectation:8.88,trueValue:18.84,espnId:4432211},
-        {rank:27,name:"Guerschon Yabusele",performance:27.68,expectation:9.30,trueValue:18.38,espnId:4017771},
+        {rank:17,name:"Anfernee Simons",performance:35.12,expectation:13.46,trueValue:21.66,espnId:4351854},
+        {rank:15,name:"Quentin Grimes",performance:33.29,expectation:10.50,trueValue:22.79,espnId:4397024},
         {rank:31,name:"Moritz Wagner",performance:26.63,expectation:9.16,trueValue:17.47,espnId:4276809},
         {rank:49,name:"Darius Garland",performance:54.40,expectation:40.11,trueValue:14.28,espnId:4395687},
+        {rank:25,name:"Keon Ellis",performance:27.73,expectation:8.88,trueValue:18.84,espnId:4432211},
+        {rank:16,name:"Tari Eason",performance:31.79,expectation:9.44,trueValue:22.35,espnId:4683742},
+        {rank:27,name:"Guerschon Yabusele",performance:27.68,expectation:9.30,trueValue:18.38,espnId:4017771},
         {rank:415,name:"LeBron James",performance:70.22,expectation:99.33,trueValue:-29.11,espnId:1966},
         {rank:424,name:"Chet Holmgren",performance:26.67,expectation:80.04,trueValue:-53.38,espnId:4432815}
-        /* ... Ensure the rest of the array provided previously is fully pasted here ... */
+        /* ... Ensure the full 424 player data list is pasted here ... */
     ];
 
     const mainDisplay = document.getElementById("main-display");
@@ -192,7 +180,7 @@
     const p1Select = document.getElementById("p1");
     const p2Select = document.getElementById("p2");
 
-    const SUGGESTED_NAMES = ["Nikola Jokić", "James Harden", "LeBron James", "Chet Holmgren", "Darius Garland", "Walker Kessler"];
+    const SUGGESTED_NAMES = ["Nikola Jokić", "Ivica Zubac", "LeBron James", "Chet Holmgren", "Austin Reaves", "Domantas Sabonis"];
 
     function getHeadshot(id) {
         return id ? `https://a.espncdn.com/i/headshots/nba/players/full/${id}.png` : 'https://a.espncdn.com/combiner/i?img=/i/headshots/noplayer.png';
@@ -201,17 +189,9 @@
     function generateAnalysis(p) {
         const name = p.name.split(' ').pop();
         const isUnder = p.trueValue >= 0;
-        
-        if (p.performance >= 90 && isUnder) {
-            return `<strong>${name}</strong> is a statistical anomaly. Even with an elite baseline, his production reaches a ceiling that market hype hasn't captured. He provides the league's most dominant return-on-investment because his on-court impact transcends narrative.`;
-        }
-        if (p.expectation > 90 && !isUnder) {
-            return `This is the 'Legacy Trap.' <strong>${name}</strong> is still playing at an All-Star level, but he's measured against an Expectation Score (${p.expectation.toFixed(0)}) driven by global fame and historical status. He's not playing poorly; his hype is just unreachable.`;
-        }
-        if (p.expectation < 20 && p.performance > 40) {
-            return `<strong>${name}</strong> is a 'Quiet Workhorse.' He produces heavy volume, yet his market search volume and social footprint (Score: ${p.expectation.toFixed(0)}) are minimal. This disconnect makes him one of the most overlooked assets in the dataset.`;
-        }
-        return isUnder ? `${name} is currently outperforming his market narrative by ${p.trueValue.toFixed(1)} points. His statistical production outpaces his combined salary and public search interest.` : `The data suggests ${name}'s market perception is ahead of his measured impact. His current 'hype' carries a cost that slightly exceeds his raw box-score efficiency.`;
+        if (p.performance >= 90 && isUnder) return `<strong>${name}</strong> is a statistical anomaly. Even with an elite baseline, his production reaches a ceiling that market hype hasn't captured. He is a premier positive-value asset.`;
+        if (p.expectation > 90 && !isUnder) return `This is the 'Legacy Trap.' <strong>${name}</strong> is still playing well, but he is measured against historical standards and global hype that dwarf actual box-score volume.`;
+        return isUnder ? `${name} is outperforming his market narrative by ${p.trueValue.toFixed(1)} points. He is a primary example of overlooked high-efficiency production.` : `${name}'s current market hype carries a cost that exceeds his raw statistical efficiency in our model.`;
     }
 
     function showPlayer(p) {
@@ -232,24 +212,20 @@
                 
                 <div class="value-meter">
                     <div class="meter-row">
-                        <span class="meter-label">PRODUCTION (ACTUAL ON-COURT PERFORMANCE)</span>
+                        <span class="meter-label">STATISTICAL PRODUCTION (ACTUAL PERFORMANCE)</span>
                         <div class="bar-container"><div class="bar-fill" style="width: ${p.performance}%; background: ${mainColor};"></div></div>
                     </div>
                     <div class="meter-row">
-                        <span class="meter-label">EXPECTATION (HYPE, SEARCH VOLUME & SALARY)</span>
+                        <span class="meter-label">MARKET EXPECTATION (HYPE & SALARY)</span>
                         <div class="bar-container"><div class="bar-fill" style="width: ${p.expectation}%; background: ${dimColor};"></div></div>
                     </div>
                 </div>
 
                 <div class="stats-row">
-                    <div class="stat"><small>INDEX STATUS</small><div style="color: ${mainColor}; font-size: 1rem;">${isUnder ? 'UNDERRATED' : 'OVERRATED'}</div></div>
+                    <div class="stat"><small>STATUS</small><div style="color: ${mainColor}; font-size: 1rem;">${isUnder ? 'UNDERRATED' : 'OVERRATED'}</div></div>
                     <div class="stat"><small>VALUE GAP</small><div style="color: ${mainColor}">${p.trueValue.toFixed(2)}</div></div>
                 </div>
-                
-                <div class="analysis-text" style="border-left-color: ${mainColor}">
-                    <span style="color: ${mainColor}; font-weight: 900; font-size: 0.7rem; display: block; margin-bottom: 8px; letter-spacing: 1px;">EXPERT VERDICT</span>
-                    ${generateAnalysis(p)}
-                </div>
+                <div class="analysis-text" style="border-left-color: ${mainColor}"><strong>EXPERT VERDICT:</strong> ${generateAnalysis(p)}</div>
             </div>
         `;
         mainDisplay.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -280,7 +256,7 @@
                     <div style="font-size: 0.8rem; font-weight: 900; color: #ccc;">${a.name.toUpperCase()}</div>
                     <div style="font-weight: 900; font-size: 1.5rem; color: ${a.trueValue >= 0 ? 'var(--accent)' : 'var(--overrated)'}">${a.trueValue.toFixed(2)}</div>
                 </div>
-                <div class="vs-divider" style="font-weight: 900; color: #444;">VS</div>
+                <div class="vs-divider" style="font-weight:900; color:#444;">VS</div>
                 <div class="comp-player">
                     <div class="comp-photo-circle" style="border-color: ${b.trueValue >= 0 ? 'var(--accent)' : 'var(--overrated)'}">
                         <img src="${getHeadshot(b.espnId)}" onerror="this.src='https://a.espncdn.com/combiner/i?img=/i/headshots/noplayer.png'">
@@ -289,9 +265,7 @@
                     <div style="font-weight: 900; font-size: 1.5rem; color: ${b.trueValue >= 0 ? 'var(--accent)' : 'var(--overrated)'}">${b.trueValue.toFixed(2)}</div>
                 </div>
             </div>
-            <div style="text-align: center; margin-top: 20px;">
-                <div style="color: var(--accent); font-weight: 900; font-size: 1.2rem;">${winner.name.toUpperCase()} IS THE BETTER MARKET VALUE</div>
-            </div>
+            <div style="text-align: center; margin-top: 20px;"><div style="color: var(--accent); font-weight: 900; font-size: 1.2rem;">${winner.name.toUpperCase()} IS THE BETTER MARKET VALUE</div></div>
         `;
     }
 

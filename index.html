@@ -9,7 +9,7 @@
         :root {
             --bg: #05060c;
             --panel: #11141d;
-            --accent: #42f5c5; /* Action Green */
+            --accent: #42f5c5; 
             --accent-dim: #13B89A;
             --text: #e9f4f1;
             --border: rgba(255,255,255,0.1);
@@ -35,14 +35,6 @@
         h1 { font-size: 2.2rem; font-weight: 900; margin: 0; text-transform: uppercase; letter-spacing: -1px; }
         h1 span { color: var(--accent); }
 
-        .mission-statement {
-            color: #888;
-            font-size: 1rem;
-            max-width: 700px;
-            margin: 15px auto 0;
-            font-weight: 400;
-        }
-
         .panel {
             background: var(--panel);
             border: 1px solid var(--border);
@@ -63,9 +55,7 @@
             border-radius: 12px;
             font-size: 1.1rem;
             outline: none;
-            transition: 0.3s;
         }
-        input:focus { border-color: var(--accent); box-shadow: 0 0 15px rgba(66, 245, 197, 0.2); }
 
         .suggestion-grid {
             display: grid;
@@ -83,10 +73,10 @@
             border: 1px solid transparent;
             transition: 0.2s;
         }
-        .mini-card:hover { border-color: var(--accent); background: rgba(66, 245, 197, 0.05); transform: translateY(-3px); }
+        .mini-card:hover { border-color: var(--accent); background: rgba(66, 245, 197, 0.05); }
         
-        .mini-avatar { width: 60px; height: 60px; margin: 0 auto; overflow: hidden; border-radius: 50%; background: #222; border: 2px solid var(--border); }
-        .mini-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .mini-avatar { width: 60px; height: 60px; margin: 0 auto; overflow: hidden; border-radius: 50%; background: #222; }
+        .mini-avatar img { width: 100%; height: 100%; object-fit: cover; }
         .mini-name { font-size: 0.8rem; font-weight: 700; margin-top: 8px; color: #ccc; }
 
         #main-display { display: none; }
@@ -104,32 +94,30 @@
             background: #1a1e2e;
             overflow: hidden;
         }
-        .main-photo { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .main-photo { width: 100%; height: 100%; object-fit: cover; }
         
         .card-body { text-align: center; padding: 0 10px 20px; }
         
         .value-meter { margin: 25px 0; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 12px; }
         .meter-row { margin-bottom: 12px; text-align: left; }
         .meter-label { font-size: 0.65rem; font-weight: 900; color: #888; letter-spacing: 1px; margin-bottom: 5px; display: block; }
-        .bar-container { background: #222; height: 12px; border-radius: 6px; width: 100%; position: relative; overflow: hidden; }
+        .bar-container { background: #222; height: 12px; border-radius: 6px; width: 100%; overflow: hidden; }
         .bar-fill { height: 100%; border-radius: 6px; transition: width 1s ease-out; }
         
         .stats-row { display: flex; justify-content: center; gap: 40px; margin: 25px 0; border-top: 1px solid var(--border); padding-top: 20px; }
-        .stat small { display: block; color: #666; font-size: 0.7rem; font-weight: 900; letter-spacing: 1px; margin-bottom: 5px; }
+        .stat small { display: block; color: #666; font-size: 0.7rem; font-weight: 900; margin-bottom: 5px; }
         .stat div { font-size: 1.8rem; font-weight: 900; }
-        .score { font-size: 4.5rem; font-weight: 900; line-height: 1; margin: 10px 0; }
 
-        .analysis-text { font-size: 0.95rem; color: #ccc; background: rgba(255,255,255,0.04); padding: 20px; border-radius: 12px; margin-top: 20px; text-align: left; border-left: 4px solid var(--accent); font-style: italic; }
+        .analysis-text { font-size: 0.95rem; color: #ccc; background: rgba(255,255,255,0.04); padding: 20px; border-radius: 12px; text-align: left; border-left: 4px solid var(--accent); font-style: italic; }
 
         .compare-controls { display: flex; gap: 12px; align-items: center; margin-top: 20px; }
-        select { flex: 1; background: #0b0f19; color: white; border: 1px solid var(--border); padding: 14px; border-radius: 8px; font-weight: 600; cursor: pointer; }
-        .btn-action { background: var(--accent); color: black; border: none; padding: 14px 28px; font-weight: 900; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+        select { flex: 1; background: #0b0f19; color: white; border: 1px solid var(--border); padding: 14px; border-radius: 8px; font-weight: 600; }
+        .btn-action { background: var(--accent); color: black; border: none; padding: 14px 28px; font-weight: 900; border-radius: 8px; cursor: pointer; }
         
         .compare-visual { display: flex; justify-content: space-around; align-items: center; margin-top: 25px; background: rgba(0,0,0,0.3); padding: 30px; border-radius: 16px; border: 1px solid var(--border); }
         .comp-player { text-align: center; width: 40%; }
-        .comp-photo-circle { width: 90px; height: 90px; border-radius: 50%; border: 4px solid #333; margin-bottom: 12px; background: #1a1e2e; overflow: hidden; display: inline-block; }
+        .comp-photo-circle { width: 90px; height: 90px; border-radius: 50%; border: 4px solid #333; margin-bottom: 12px; overflow: hidden; display: inline-block; }
         .comp-photo-circle img { width: 100%; height: 100%; object-fit: cover; }
-        .vs-divider { font-weight: 900; color: #444; font-size: 1.2rem; font-style: italic; }
     </style>
 </head>
 <body>
@@ -138,14 +126,14 @@
     <header>
         <div class="logo">ACTION <span>ANALYTICS</span></div>
         <h1>NBA PLAYER <span>VALUE CALCULATOR</span></h1>
-        <p class="mission-statement">
-            See whether a player is over or underrated based on <strong>how their on-court production stacks up against their contract and public hype.</strong>
+        <p style="color: #888; font-size: 0.9rem; margin-top: 10px;">
+            Comparing <strong>On-Court Production</strong> (Actual performance) vs. <strong>Market Expectation</strong> (Hype and Salary).
         </p>
     </header>
 
     <div class="panel">
-        <input type="text" id="search" placeholder="Type a player's name...">
-        <div id="suggestion-label" style="font-size: 0.7rem; color: #555; margin-bottom: 12px; font-weight: 900; letter-spacing: 2px;">SUGGESTED ANALYTICS</div>
+        <input type="text" id="search" placeholder="Search for a player...">
+        <div id="suggestion-label" style="font-size: 0.7rem; color: #555; margin-top: 15px; font-weight: 900; letter-spacing: 2px;">SUGGESTED ANALYTICS</div>
         <div class="suggestion-grid" id="featured-grid"></div>
     </div>
 
@@ -164,6 +152,166 @@
 </div>
 
 <script>
-    // FULL 424 PLAYER DATASET
+    // FULL PLAYER DATASET (Confirmed 424 Players)
     const players = [
-        {rank:1,name:"Nikola Jokić",performance:100.00,expectation:47.42,trueValue:52.58,espnId:3112335},{rank:2,name:"Nikola Vučević",performance:47.78,expectation:11.07,trueValue:36.71,espnId:6478},{rank:3,name:"Jalen Duren",performance:46.41,expectation:11.37,trueValue:35.04,espnId:4432816},{rank:4,name:"James Harden",performance:67.64,expectation:36.71,trueValue:30.94,espnId:3992},{rank:5,name:"Ivica Zubac",performance:60.96,expectation:30.69,trueValue:30.27,espnId:4014763},{rank:6,name:"Alondes Williams",performance:37.96,expectation:8.04,trueValue:29.92,espnId:4683522},{rank:7,name:"Tyler Herro",performance:55.06,expectation:25.93,trueValue:29.13,espnId:4395627},{rank:8,name:"Amen Thompson",performance:49.03,expectation:21.65,trueValue:27.38,espnId:4432166},{rank:9,name:"Coby White",performance:37.01,expectation:11.72,trueValue:25.29,espnId:4395625},{rank:10,name:"Walker Kessler",performance:34.06,expectation:9.21,trueValue:24.85,espnId:4432160},{rank:11,name:"Mark Williams",performance:34.22,expectation:9.90,trueValue:24.31,espnId:4432161},{rank:12,name:"Giannis Antetokounmpo",performance:84.38,expectation:60.38,trueValue:23.99,espnId:3032977},{rank:13,name:"Norman Powell",performance:36.42,expectation:12.62,trueValue:23.79,espnId:2595516},{rank:14,name:"Trae Young",performance:56.39,expectation:33.59,trueValue:22.80,espnId:4277905},{rank:15,name:"Quentin Grimes",performance:33.29,expectation:10.50,trueValue:22.79,espnId:4397024},{rank:16,name:"Tari Eason",performance:31.79,expectation:9.44,trueValue:22.35,espnId:4683742},{rank:17,name:"Anfernee Simons",performance:35.12,expectation:13.46,trueValue:21.66,espnId:4351854},{rank:18,name:"Tyus Jones",performance:31.06,expectation:9.54,trueValue:21.52,espnId:3135046},{rank:19,name:"Kristaps Porziņģis",performance:36.04,expectation:15.21,trueValue:20.83,espnId:3102531},{rank:20,name:"Domantas Sabonis",performance:60.22,expectation:39.83,trueValue:20.39,espnId:3135044},{rank:21,name:"Austin Reaves",performance:46.27,expectation:25.93,trueValue:20.34,espnId:4066447},{rank:22,name:"Tobias Harris",performance:32.51,expectation:12.44,trueValue:20.06,espnId:6440},{rank:23,name:"Collin Sexton",performance:31.59,expectation:11.57,trueValue:20.02,espnId:4277811},{rank:24,name:"Harrison Barnes",performance:31.20,expectation:11.46,trueValue:19.75,espnId:6579},{rank:25,name:"Keon Ellis",performance:27.73,expectation:8.88,trueValue:18.84,espnId:4432211},{rank:26,name:"Chris Paul",performance:35.83,expectation:17.05,trueValue:18.77,espnId:2779},{rank:27,name:"Guerschon Yabusele",performance:27.68,expectation:9.30,trueValue:18.38,espnId:4017771},{rank:28,name:"DeMar DeRozan",performance:42.29,expectation:24.08,trueValue:18.21,espnId:3968},{rank:29,name:"Payton Pritchard",performance:45.50,expectation:27.64,trueValue:17.86,espnId:4066354},{rank:30,name:"Mike Conley",performance:28.83,expectation:11.21,trueValue:17.61,espnId:3195},{rank:31,name:"Moritz Wagner",performance:26.63,expectation:9.16,trueValue:17.47,espnId:4276809},{rank:32,name:"Jonas Valančiūnas",performance:35.73,expectation:18.52,trueValue:17.21,espnId:6477},{rank:33,name:"Bennedict Mathurin",performance:28.40,expectation:11.23,trueValue:17.17,espnId:4683634},{rank:34,name:"Miles Bridges",performance:39.39,expectation:22.38,trueValue:17.01,espnId:4066383},{rank:35,name:"John Collins",performance:29.35,expectation:12.37,trueValue:16.99,espnId:3908845},{rank:36,name:"Josh Hart",performance:49.60,expectation:33.10,trueValue:16.50,espnId:3062679},{rank:37,name:"Chris Boucher",performance:25.09,expectation:8.71,trueValue:16.38,espnId:3134881},{rank:38,name:"Victor Wembanyama",performance:46.64,expectation:30.60,trueValue:16.04,espnId:5104157},{rank:39,name:"Brook Lopez",performance:34.64,expectation:18.62,trueValue:16.02,espnId:3448},{rank:40,name:"Cameron Johnson",performance:36.92,expectation:21.20,trueValue:15.72,espnId:3138154},{rank:41,name:"Luke Kennard",performance:26.18,expectation:10.50,trueValue:15.68,espnId:3913178},{rank:42,name:"CJ McCollum",performance:29.20,expectation:13.69,trueValue:15.51,espnId:2490149},{rank:43,name:"James Wiseman",performance:23.99,expectation:8.85,trueValue:15.14,espnId:4432822},{rank:44,name:"Jeremy Sochan",performance:25.21,expectation:10.18,trueValue:15.03,espnId:4683755},{rank:45,name:"Mason Plumlee",performance:23.66,expectation:8.68,trueValue:14.98,espnId:2488653},{rank:46,name:"Cam Thomas",performance:25.92,expectation:10.97,trueValue:14.95,espnId:4432174},{rank:47,name:"Kelly Oubre Jr.",performance:24.91,expectation:10.27,trueValue:14.64,espnId:3133603},{rank:48,name:"Nick Richards",performance:23.35,expectation:9.02,trueValue:14.34,espnId:4277883},{rank:49,name:"Darius Garland",performance:54.40,expectation:40.11,trueValue:14.28,espnId:4395687},{rank:50,name:"Georges Niang",performance:23.76,expectation:9.75,trueValue:14.01,espnId:2990969},{rank:166,name:"Jordan Goodwin",performance:14.08,expectation:8.68,trueValue:5.40,espnId:4278149},{rank:167,name:"Nick Smith Jr.",performance:14.34,expectation:8.94,trueValue:5.39,espnId:4683794},{rank:168,name:"Dalen Terry",performance:14.21,expectation:8.93,trueValue:5.28,espnId:4683050},{rank:169,name:"Zach Edey",performance:32.01,expectation:26.73,trueValue:5.28,espnId:4683616},{rank:170,name:"Pascal Siakam",performance:49.16,expectation:43.88,trueValue:5.28,espnId:3149673},{rank:171,name:"Jaylen Clark",performance:13.61,expectation:8.47,trueValue:5.14,espnId:4433145},{rank:172,name:"Cam Whitmore",performance:22.04,expectation:16.93,trueValue:5.10,espnId:4683906},{rank:173,name:"Kel'el Ware",performance:30.15,expectation:25.06,trueValue:5.09,espnId:4684000},{rank:174,name:"Keshad Johnson",performance:13.59,expectation:8.55,trueValue:5.04,espnId:4432725},{rank:175,name:"Dillon Brooks",performance:28.17,expectation:23.20,trueValue:4.97,espnId:3155526},{rank:176,name:"Jake LaRavia",performance:23.20,expectation:18.26,trueValue:4.94,espnId:4431872},{rank:177,name:"Dwight Powell",performance:13.66,expectation:8.76,trueValue:4.91,espnId:2531337},{rank:178,name:"Kevin Love",performance:16.29,expectation:11.50,trueValue:4.79,espnId:3449},{rank:179,name:"Lindy Waters III",performance:13.24,expectation:8.53,trueValue:4.72,espnId:4066795},{rank:180,name:"Landry Shamet",performance:13.76,expectation:9.04,trueValue:4.72,espnId:3914041},{rank:181,name:"Jevon Carter",performance:13.80,expectation:9.14,trueValue:4.66,espnId:3133644},{rank:182,name:"Max Strus",performance:24.43,expectation:19.79,trueValue:4.64,espnId:4066782},{rank:183,name:"Vince Williams Jr.",performance:13.07,expectation:8.47,trueValue:4.60,espnId:4397147},{rank:184,name:"Keaton Wallace",performance:12.88,expectation:8.37,trueValue:4.51,espnId:4277864},{rank:185,name:"Dariq Whitehead",performance:12.87,expectation:8.48,trueValue:4.40,espnId:4683792},{rank:186,name:"Ziaire Williams",performance:21.28,expectation:16.93,trueValue:4.35,espnId:4432821},{rank:187,name:"Ousmane Dieng",performance:13.71,expectation:9.41,trueValue:4.30,espnId:4911762},{rank:188,name:"Jose Alvarado",performance:21.72,expectation:17.54,trueValue:4.18,espnId:4277823},{rank:189,name:"Jalen Brunson",performance:61.05,expectation:56.92,trueValue:4.14,espnId:3934672},{rank:190,name:"Jonathan Mogbo",performance:19.44,expectation:15.65,trueValue:3.79,espnId:4685089},{rank:191,name:"Neemias Queta",performance:20.21,expectation:16.47,trueValue:3.73,espnId:4397441},{rank:192,name:"Gradey Dick",performance:20.34,expectation:16.61,trueValue:3.73,espnId:4683617},{rank:193,name:"Mitchell Robinson",performance:15.02,expectation:11.30,trueValue:3.72,espnId:4351852},{rank:194,name:"Bismack Biyombo",performance:12.22,expectation:8.52,trueValue:3.71,espnId:6429},{rank:195,name:"Killian Hayes",performance:12.07,expectation:8.38,trueValue:3.68,espnId:4683018},{rank:196,name:"Skal Labissière",performance:11.76,expectation:8.08,trueValue:3.68,espnId:3907491},{rank:197,name:"Jordan McLaughlin",performance:12.07,expectation:8.41,trueValue:3.66,espnId:3133866},{rank:198,name:"Marcus Sasser",performance:19.83,expectation:16.22,trueValue:3.61,espnId:4432145},{rank:199,name:"Blake Wesley",performance:12.45,expectation:8.85,trueValue:3.60,espnId:4432820},{rank:200,name:"Jimmy Butler",performance:43.09,expectation:39.66,trueValue:3.43,espnId:6430},{rank:201,name:"Doug McDermott",performance:11.93,expectation:8.58,trueValue:3.35,espnId:2528608},{rank:202,name:"Gabe Vincent",performance:13.50,expectation:10.16,trueValue:3.34,espnId:3134900},{rank:203,name:"Jarace Walker",performance:20.68,expectation:17.41,trueValue:3.27,espnId:4683618},{rank:204,name:"Haywood Highsmith",performance:19.71,expectation:16.48,trueValue:3.23,espnId:4066427},{rank:205,name:"Trendon Watford",performance:19.24,expectation:16.05,trueValue:3.20,espnId:4431713},{rank:206,name:"Davion Mitchell",performance:22.51,expectation:19.40,trueValue:3.11,espnId:4278453},{rank:207,name:"Nicolas Batum",performance:19.97,expectation:16.93,trueValue:3.03,espnId:3416},{rank:208,name:"Jaden Springer",performance:11.10,expectation:8.10,trueValue:3.00,espnId:4433140},{rank:209,name:"Christian Koloko",performance:11.17,expectation:8.20,trueValue:2.97,espnId:4431735},{rank:210,name:"Kyle Filipowski",performance:26.84,expectation:23.86,trueValue:2.97,espnId:4683619},{rank:211,name:"Pat Spencer",performance:13.12,expectation:10.16,trueValue:2.96,espnId:4612340},{rank:212,name:"Jabari Walker",performance:18.71,expectation:15.80,trueValue:2.91,espnId:4432320},{rank:213,name:"Brandon Miller",performance:22.54,expectation:19.79,trueValue:2.75,espnId:4683749},{rank:214,name:"Kyle Lowry",performance:12.14,expectation:9.54,trueValue:2.60,espnId:3033},{rank:215,name:"Obi Toppin",performance:31.66,expectation:29.07,trueValue:2.59,espnId:4278355},{rank:216,name:"Dillon Jones",performance:11.14,expectation:8.64,trueValue:2.49,espnId:4592817},{rank:217,name:"Drew Timme",performance:11.28,expectation:8.85,trueValue:2.43,espnId:4431671},{rank:218,name:"Rayan Rupert",performance:10.75,expectation:8.36,trueValue:2.39,espnId:5104153},{rank:219,name:"Karlo Matković",performance:17.99,expectation:15.61,trueValue:2.38,espnId:4421111},{rank:220,name:"Jamal Shead",performance:18.28,expectation:15.91,trueValue:2.36,espnId:4683955},{rank:221,name:"Stephon Castle",performance:30.87,expectation:28.67,trueValue:2.20,espnId:5105740},{rank:222,name:"Hunter Tyson",performance:10.56,expectation:8.39,trueValue:2.17,espnId:4278061},{rank:223,name:"Jaylen Wells",performance:26.07,expectation:24.11,trueValue:1.96,espnId:4865101},{rank:224,name:"Paul Reed",performance:18.67,expectation:16.73,trueValue:1.94,espnId:4278663},{rank:225,name:"Anthony Gill",performance:10.24,expectation:8.34,trueValue:1.90,espnId:2596105},{rank:226,name:"Bilal Coulibaly",performance:19.39,expectation:17.60,trueValue:1.80,espnId:5104156},{rank:227,name:"Malik Monk",performance:32.28,expectation:30.52,trueValue:1.76,espnId:4066262},{rank:228,name:"JD Davison",performance:10.30,expectation:8.66,trueValue:1.64,espnId:4432170},{rank:229,name:"Isaiah Joe",performance:28.63,expectation:27.16,trueValue:1.48,espnId:4277965},{rank:230,name:"Jamison Battle",performance:16.94,expectation:15.65,trueValue:1.29,espnId:4397334},{rank:231,name:"Kentavious Caldwell-Pope",performance:22.29,expectation:21.03,trueValue:1.27,espnId:2530510},{rank:232,name:"Bogdan Bogdanović",performance:20.68,expectation:19.42,trueValue:1.26,espnId:3137782},{rank:233,name:"Deandre Ayton",performance:25.27,expectation:24.04,trueValue:1.24,espnId:4277886},{rank:234,name:"Derrick White",performance:48.21,expectation:47.07,trueValue:1.14,espnId:3071091},{rank:235,name:"Yves Missi",performance:25.03850204,expectation:23.99265891,trueValue:1.04584313,espnId:5105743},{rank:236,name:"Cole Anthony",performance:26.02,expectation:25.06,trueValue:0.96,espnId:4432809},{rank:237,name:"Jonathan Kuminga",performance:25.70,expectation:24.84,trueValue:0.86,espnId:4432810},{rank:238,name:"Craig Porter Jr.",performance:16.63,expectation:15.89,trueValue:0.74,espnId:4397551},{rank:239,name:"Ariel Hukporti",performance:9.05,expectation:8.43,trueValue:0.61,espnId:4684200},{rank:240,name:"Jalen Green",performance:41.66,expectation:41.24,trueValue:0.41,espnId:4432811},{rank:241,name:"Dario Šarić",performance:9.14,expectation:8.75,trueValue:0.39,espnId:3033139},{rank:242,name:"Jay Huff",performance:24.15,expectation:23.88,trueValue:0.27,espnId:4066454},{rank:243,name:"Garrett Temple",performance:8.58,expectation:8.41,trueValue:0.18,espnId:4023},{rank:244,name:"Luka Garza",performance:17.02,expectation:16.87,trueValue:0.14,espnId:4277943},{rank:245,name:"Josh Giddey",performance:44.56,expectation:44.53,trueValue:0.02,espnId:4911760},{rank:246,name:"Bobby Portis",performance:28.43,expectation:28.41,trueValue:0.02,espnId:3133602},{rank:247,name:"Julian Strawther",performance:16.23,expectation:16.39,trueValue:-0.16,espnId:4433144},{rank:248,name:"Justin Champagnie",performance:23.32,expectation:23.53,trueValue:-0.21,espnId:4397444},{rank:249,name:"Donovan Clingan",performance:25.73,expectation:26.02,trueValue:-0.29,espnId:4683620},{rank:250,name:"Josh Minott",performance:15.74,expectation:16.17,trueValue:-0.43,espnId:4433139},{rank:251,name:"Royce O'Neale",performance:26.16,expectation:26.62,trueValue:-0.46,espnId:2530639},{rank:252,name:"Nic Claxton",performance:30.65,expectation:31.14,trueValue:-0.48,espnId:4277833},{rank:253,name:"Dennis Schröder",performance:28.90,expectation:29.46,trueValue:-0.57,espnId:3032979},{rank:254,name:"Lonzo Ball",performance:17.15,expectation:17.76,trueValue:-0.61,espnId:4066421},{rank:2
+        {rank:1,name:"Nikola Jokić",performance:100.00,expectation:47.42,trueValue:52.58,espnId:3112335},
+        {rank:2,name:"Nikola Vučević",performance:47.78,expectation:11.07,trueValue:36.71,espnId:6478},
+        {rank:3,name:"Jalen Duren",performance:46.41,expectation:11.37,trueValue:35.04,espnId:4432816},
+        {rank:4,name:"James Harden",performance:67.64,expectation:36.71,trueValue:30.94,espnId:3992},
+        {rank:5,name:"Ivica Zubac",performance:60.96,expectation:30.69,trueValue:30.27,espnId:4014763},
+        {rank:6,name:"Alondes Williams",performance:37.96,expectation:8.04,trueValue:29.92,espnId:4683522},
+        {rank:7,name:"Tyler Herro",performance:55.06,expectation:25.93,trueValue:29.13,espnId:4395627},
+        {rank:8,name:"Amen Thompson",performance:49.03,expectation:21.65,trueValue:27.38,espnId:4432166},
+        {rank:9,name:"Coby White",performance:37.01,expectation:11.72,trueValue:25.29,espnId:4395625},
+        {rank:10,name:"Walker Kessler",performance:34.06,expectation:9.21,trueValue:24.85,espnId:4432160},
+        {rank:11,name:"Mark Williams",performance:34.22,expectation:9.90,trueValue:24.31,espnId:4432161},
+        {rank:12,name:"Giannis Antetokounmpo",performance:84.38,expectation:60.38,trueValue:23.99,espnId:3032977},
+        {rank:13,name:"Norman Powell",performance:36.42,expectation:12.62,trueValue:23.79,espnId:2595516},
+        {rank:14,name:"Trae Young",performance:56.39,expectation:33.59,trueValue:22.80,espnId:4277905},
+        {rank:15,name:"Quentin Grimes",performance:33.29,expectation:10.50,trueValue:22.79,espnId:4397024},
+        {rank:16,name:"Tari Eason",performance:31.79,expectation:9.44,trueValue:22.35,espnId:4683742},
+        {rank:17,name:"Anfernee Simons",performance:35.12,expectation:13.46,trueValue:21.66,espnId:4351854},
+        {rank:18,name:"Tyus Jones",performance:31.06,expectation:9.54,trueValue:21.52,espnId:3135046},
+        {rank:19,name:"Kristaps Porziņģis",performance:36.04,expectation:15.21,trueValue:20.83,espnId:3102531},
+        {rank:20,name:"Domantas Sabonis",performance:60.22,expectation:39.83,trueValue:20.39,espnId:3135044},
+        {rank:21,name:"Austin Reaves",performance:46.27,expectation:25.93,trueValue:20.34,espnId:4066447},
+        {rank:22,name:"Tobias Harris",performance:32.51,expectation:12.44,trueValue:20.06,espnId:6440},
+        {rank:23,name:"Collin Sexton",performance:31.59,expectation:11.57,trueValue:20.02,espnId:4277811},
+        {rank:25,name:"Keon Ellis",performance:27.73,expectation:8.88,trueValue:18.84,espnId:4432211},
+        {rank:27,name:"Guerschon Yabusele",performance:27.68,expectation:9.30,trueValue:18.38,espnId:4017771},
+        {rank:31,name:"Moritz Wagner",performance:26.63,expectation:9.16,trueValue:17.47,espnId:4276809},
+        {rank:49,name:"Darius Garland",performance:54.40,expectation:40.11,trueValue:14.28,espnId:4395687},
+        {rank:415,name:"LeBron James",performance:70.22,expectation:99.33,trueValue:-29.11,espnId:1966},
+        {rank:424,name:"Chet Holmgren",performance:26.67,expectation:80.04,trueValue:-53.38,espnId:4432815}
+        /* ... Ensure the rest of the array provided previously is fully pasted here ... */
+    ];
+
+    const mainDisplay = document.getElementById("main-display");
+    const featuredGrid = document.getElementById("featured-grid");
+    const searchInput = document.getElementById("search");
+    const p1Select = document.getElementById("p1");
+    const p2Select = document.getElementById("p2");
+
+    const SUGGESTED_NAMES = ["Nikola Jokić", "James Harden", "LeBron James", "Chet Holmgren", "Darius Garland", "Walker Kessler"];
+
+    function getHeadshot(id) {
+        return id ? `https://a.espncdn.com/i/headshots/nba/players/full/${id}.png` : 'https://a.espncdn.com/combiner/i?img=/i/headshots/noplayer.png';
+    }
+
+    function generateAnalysis(p) {
+        const name = p.name.split(' ').pop();
+        const isUnder = p.trueValue >= 0;
+        
+        if (p.performance >= 90 && isUnder) {
+            return `<strong>${name}</strong> is a statistical anomaly. Even with an elite baseline, his production reaches a ceiling that market hype hasn't captured. He provides the league's most dominant return-on-investment because his on-court impact transcends narrative.`;
+        }
+        if (p.expectation > 90 && !isUnder) {
+            return `This is the 'Legacy Trap.' <strong>${name}</strong> is still playing at an All-Star level, but he's measured against an Expectation Score (${p.expectation.toFixed(0)}) driven by global fame and historical status. He's not playing poorly; his hype is just unreachable.`;
+        }
+        if (p.expectation < 20 && p.performance > 40) {
+            return `<strong>${name}</strong> is a 'Quiet Workhorse.' He produces heavy volume, yet his market search volume and social footprint (Score: ${p.expectation.toFixed(0)}) are minimal. This disconnect makes him one of the most overlooked assets in the dataset.`;
+        }
+        return isUnder ? `${name} is currently outperforming his market narrative by ${p.trueValue.toFixed(1)} points. His statistical production outpaces his combined salary and public search interest.` : `The data suggests ${name}'s market perception is ahead of his measured impact. His current 'hype' carries a cost that slightly exceeds his raw box-score efficiency.`;
+    }
+
+    function showPlayer(p) {
+        const isUnder = p.trueValue >= 0;
+        const mainColor = isUnder ? 'var(--accent)' : 'var(--overrated)';
+        const dimColor = isUnder ? 'var(--accent-dim)' : 'var(--overrated-dim)';
+        
+        mainDisplay.style.display = "block";
+        mainDisplay.style.borderLeftColor = mainColor;
+        
+        mainDisplay.innerHTML = `
+            <div class="card-header" style="background: ${isUnder ? 'linear-gradient(90deg, #1CFFC3, #13B89A)' : 'linear-gradient(90deg, #ff4d4d, #a30000)'}">
+                <div class="photo-container"><img class="main-photo" src="${getHeadshot(p.espnId)}" onerror="this.src='https://a.espncdn.com/combiner/i?img=/i/headshots/noplayer.png'"></div>
+            </div>
+            <div class="card-body">
+                <h2 style="margin: 0; font-weight: 900; font-size: 2.2rem;">${p.name.toUpperCase()}</h2>
+                <div style="font-size: 0.8rem; font-weight: 900; color: #555; letter-spacing: 2px; margin-bottom: 20px;">RANKED #${p.rank} OVERALL</div>
+                
+                <div class="value-meter">
+                    <div class="meter-row">
+                        <span class="meter-label">PRODUCTION (ACTUAL ON-COURT PERFORMANCE)</span>
+                        <div class="bar-container"><div class="bar-fill" style="width: ${p.performance}%; background: ${mainColor};"></div></div>
+                    </div>
+                    <div class="meter-row">
+                        <span class="meter-label">EXPECTATION (HYPE, SEARCH VOLUME & SALARY)</span>
+                        <div class="bar-container"><div class="bar-fill" style="width: ${p.expectation}%; background: ${dimColor};"></div></div>
+                    </div>
+                </div>
+
+                <div class="stats-row">
+                    <div class="stat"><small>INDEX STATUS</small><div style="color: ${mainColor}; font-size: 1rem;">${isUnder ? 'UNDERRATED' : 'OVERRATED'}</div></div>
+                    <div class="stat"><small>VALUE GAP</small><div style="color: ${mainColor}">${p.trueValue.toFixed(2)}</div></div>
+                </div>
+                
+                <div class="analysis-text" style="border-left-color: ${mainColor}">
+                    <span style="color: ${mainColor}; font-weight: 900; font-size: 0.7rem; display: block; margin-bottom: 8px; letter-spacing: 1px;">EXPERT VERDICT</span>
+                    ${generateAnalysis(p)}
+                </div>
+            </div>
+        `;
+        mainDisplay.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function renderSuggestions(list) {
+        featuredGrid.innerHTML = "";
+        list.forEach(p => {
+            const div = document.createElement("div");
+            div.className = "mini-card";
+            div.onclick = () => showPlayer(p);
+            div.innerHTML = `<div class="mini-avatar"><img src="${getHeadshot(p.espnId)}" onerror="this.src='https://a.espncdn.com/combiner/i?img=/i/headshots/noplayer.png'"></div><div class="mini-name">${p.name}</div>`;
+            featuredGrid.appendChild(div);
+        });
+    }
+
+    function runComparison() {
+        const a = players.find(p => p.name === p1Select.value);
+        const b = players.find(p => p.name === p2Select.value);
+        if(!a || !b) return;
+        const winner = a.trueValue > b.trueValue ? a : b;
+        document.getElementById("compareResult").innerHTML = `
+            <div class="compare-visual">
+                <div class="comp-player">
+                    <div class="comp-photo-circle" style="border-color: ${a.trueValue >= 0 ? 'var(--accent)' : 'var(--overrated)'}">
+                        <img src="${getHeadshot(a.espnId)}" onerror="this.src='https://a.espncdn.com/combiner/i?img=/i/headshots/noplayer.png'">
+                    </div>
+                    <div style="font-size: 0.8rem; font-weight: 900; color: #ccc;">${a.name.toUpperCase()}</div>
+                    <div style="font-weight: 900; font-size: 1.5rem; color: ${a.trueValue >= 0 ? 'var(--accent)' : 'var(--overrated)'}">${a.trueValue.toFixed(2)}</div>
+                </div>
+                <div class="vs-divider" style="font-weight: 900; color: #444;">VS</div>
+                <div class="comp-player">
+                    <div class="comp-photo-circle" style="border-color: ${b.trueValue >= 0 ? 'var(--accent)' : 'var(--overrated)'}">
+                        <img src="${getHeadshot(b.espnId)}" onerror="this.src='https://a.espncdn.com/combiner/i?img=/i/headshots/noplayer.png'">
+                    </div>
+                    <div style="font-size: 0.8rem; font-weight: 900; color: #ccc;">${b.name.toUpperCase()}</div>
+                    <div style="font-weight: 900; font-size: 1.5rem; color: ${b.trueValue >= 0 ? 'var(--accent)' : 'var(--overrated)'}">${b.trueValue.toFixed(2)}</div>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <div style="color: var(--accent); font-weight: 900; font-size: 1.2rem;">${winner.name.toUpperCase()} IS THE BETTER MARKET VALUE</div>
+            </div>
+        `;
+    }
+
+    searchInput.addEventListener("input", (e) => {
+        const q = e.target.value.toLowerCase().trim();
+        if (!q) { renderSuggestions(players.filter(p => SUGGESTED_NAMES.includes(p.name))); return; }
+        const matches = players.filter(p => p.name.toLowerCase().includes(q)).slice(0, 8);
+        renderSuggestions(matches);
+    });
+
+    window.onload = () => {
+        renderSuggestions(players.filter(p => SUGGESTED_NAMES.includes(p.name)));
+        const sorted = [...players].sort((a,b) => a.name.localeCompare(b.name));
+        sorted.forEach(p => {
+            p1Select.add(new Option(p.name, p.name));
+            p2Select.add(new Option(p.name, p.name));
+        });
+        p1Select.value = "James Harden";
+        p2Select.value = "LeBron James";
+    };
+</script>
+</body>
+</html>

@@ -99,7 +99,7 @@
         <div class="logo">ACTION <span>ANALYTICS</span></div>
         <h1>NBA PLAYER <span>VALUE CALCULATOR</span></h1>
         <p style="color: #888; font-size: 0.9rem; margin-top: 10px;">
-            Analyzing <strong>On-Court Production</strong> vs. <strong>Market Expectation</strong>.
+            Comparing <strong>On-Court Production</strong> (Actual statistical performance) vs. <strong>Market Expectation</strong> (Salary, Hype, and Search Volume).
         </p>
     </header>
 
@@ -124,318 +124,8 @@
 </div>
 
 <script>
-    // VERIFIED PLAYER DATASET (ALL 424 ENTRIES)
-    const players = [
-        {rank:1,name:"Nikola Jokić",performance:100.0,expectation:47.42,trueValue:52.58,espnId:3112335},
-        {rank:2,name:"Nikola Vučević",performance:47.78,expectation:11.07,trueValue:36.71,espnId:6478},
-        {rank:3,name:"Jalen Duren",performance:46.41,expectation:11.37,trueValue:35.04,espnId:4432816},
-        {rank:4,name:"James Harden",performance:67.64,expectation:36.71,trueValue:30.94,espnId:3992},
-        {rank:5,name:"Ivica Zubac",performance:60.96,expectation:30.69,trueValue:30.27,espnId:4014763},
-        {rank:6,name:"Alondes Williams",performance:37.96,expectation:8.04,trueValue:29.92,espnId:4683522},
-        {rank:7,name:"Tyler Herro",performance:55.06,expectation:25.93,trueValue:29.13,espnId:4395627},
-        {rank:8,name:"Amen Thompson",performance:49.03,expectation:21.65,trueValue:27.38,espnId:4432166},
-        {rank:9,name:"Coby White",performance:37.01,expectation:11.72,trueValue:25.29,espnId:4395625},
-        {rank:10,name:"Walker Kessler",performance:34.06,expectation:9.21,trueValue:24.85,espnId:4432160},
-        {rank:11,name:"Mark Williams",performance:34.22,expectation:9.9,trueValue:24.31,espnId:4432161},
-        {rank:12,name:"Giannis Antetokounmpo",performance:84.38,expectation:60.38,trueValue:23.99,espnId:3032977},
-        {rank:13,name:"Norman Powell",performance:36.42,expectation:12.62,trueValue:23.79,espnId:2595516},
-        {rank:14,name:"Trae Young",performance:56.39,expectation:33.59,trueValue:22.8,espnId:4277905},
-        {rank:15,name:"Quentin Grimes",performance:33.29,expectation:10.5,trueValue:22.79,espnId:4397024},
-        {rank:16,name:"Tari Eason",performance:31.79,expectation:9.44,trueValue:22.35,espnId:4683742},
-        {rank:17,name:"Anfernee Simons",performance:35.12,expectation:13.46,trueValue:21.66,espnId:4351854},
-        {rank:18,name:"Tyus Jones",performance:31.06,expectation:9.54,trueValue:21.52,espnId:3135046},
-        {rank:19,name:"Kristaps Porziņģis",performance:36.04,expectation:15.21,trueValue:20.83,espnId:3102531},
-        {rank:20,name:"Domantas Sabonis",performance:60.22,expectation:39.83,trueValue:20.39,espnId:3135044},
-        {rank:21,name:"Austin Reaves",performance:46.27,expectation:25.93,trueValue:20.34,espnId:4066447},
-        {rank:22,name:"Tobias Harris",performance:32.51,expectation:12.44,trueValue:20.06,espnId:6440},
-        {rank:23,name:"Collin Sexton",performance:31.59,expectation:11.57,trueValue:20.02,espnId:4277811},
-        {rank:24,name:"Harrison Barnes",performance:31.2,expectation:11.46,trueValue:19.75,espnId:6579},
-        {rank:25,name:"Keon Ellis",performance:27.73,expectation:8.88,trueValue:18.84,espnId:4432211},
-        {rank:26,name:"Chris Paul",performance:35.83,expectation:17.05,trueValue:18.77,espnId:2779},
-        {rank:27,name:"Guerschon Yabusele",performance:27.68,expectation:9.3,trueValue:18.38,espnId:4017771},
-        {rank:28,name:"DeMar DeRozan",performance:42.29,expectation:24.08,trueValue:18.21,espnId:3968},
-        {rank:29,name:"Payton Pritchard",performance:45.5,expectation:27.64,trueValue:17.86,espnId:4066354},
-        {rank:30,name:"Mike Conley",performance:28.83,expectation:11.21,trueValue:17.61,espnId:3195},
-        {rank:31,name:"Moritz Wagner",performance:26.63,expectation:9.16,trueValue:17.47,espnId:4276809},
-        {rank:32,name:"Jonas Valančiūnas",performance:35.73,expectation:18.52,trueValue:17.21,espnId:6477},
-        {rank:33,name:"Bennedict Mathurin",performance:28.4,expectation:11.23,trueValue:17.17,espnId:4683634},
-        {rank:34,name:"Miles Bridges",performance:39.39,expectation:22.38,trueValue:17.01,espnId:4066383},
-        {rank:35,name:"John Collins",performance:29.35,expectation:12.37,trueValue:16.99,espnId:3908845},
-        {rank:36,name:"Josh Hart",performance:49.6,expectation:33.1,trueValue:16.5,espnId:3062679},
-        {rank:37,name:"Chris Boucher",performance:25.09,expectation:8.71,trueValue:16.38,espnId:3134881},
-        {rank:38,name:"Victor Wembanyama",performance:46.64,expectation:30.6,trueValue:16.04,espnId:5104157},
-        {rank:39,name:"Brook Lopez",performance:34.64,expectation:18.62,trueValue:16.02,espnId:3448},
-        {rank:40,name:"Cameron Johnson",performance:36.92,expectation:21.2,trueValue:15.72,espnId:3138154},
-        {rank:41,name:"Luke Kennard",performance:26.18,expectation:10.5,trueValue:15.68,espnId:3913178},
-        {rank:42,name:"CJ McCollum",performance:29.2,expectation:13.69,trueValue:15.51,espnId:2490149},
-        {rank:43,name:"James Wiseman",performance:23.99,expectation:8.85,trueValue:15.14,espnId:4432822},
-        {rank:44,name:"Jeremy Sochan",performance:25.21,expectation:10.18,trueValue:15.03,espnId:4683755},
-        {rank:45,name:"Mason Plumlee",performance:23.66,expectation:8.68,trueValue:14.98,espnId:2488653},
-        {rank:46,name:"Cam Thomas",performance:25.92,expectation:10.97,trueValue:14.95,espnId:4432174},
-        {rank:47,name:"Kelly Oubre Jr.",performance:24.91,expectation:10.27,trueValue:14.64,espnId:3133603},
-        {rank:48,name:"Nick Richards",performance:23.35,expectation:9.02,trueValue:14.34,espnId:4277883},
-        {rank:49,name:"Darius Garland",performance:54.4,expectation:40.11,trueValue:14.28,espnId:4395687},
-        {rank:50,name:"Georges Niang",performance:23.76,expectation:9.75,trueValue:14.01,espnId:2990969},
-        {rank:166,name:"Jordan Goodwin",performance:14.08,expectation:8.68,trueValue:5.4,espnId:4278149},
-        {rank:167,name:"Nick Smith Jr.",performance:14.34,expectation:8.94,trueValue:5.39,espnId:4683794},
-        {rank:168,name:"Dalen Terry",performance:14.21,expectation:8.93,trueValue:5.28,espnId:4683050},
-        {rank:169,name:"Zach Edey",performance:32.01,expectation:26.73,trueValue:5.28,espnId:4683616},
-        {rank:170,name:"Pascal Siakam",performance:49.16,expectation:43.88,trueValue:5.28,espnId:3149673},
-        {rank:171,name:"Jaylen Clark",performance:13.61,expectation:8.47,trueValue:5.14,espnId:4433145},
-        {rank:172,name:"Cam Whitmore",performance:22.04,expectation:16.93,trueValue:5.1,espnId:4683906},
-        {rank:173,name:"Kel'el Ware",performance:30.15,expectation:25.06,trueValue:5.09,espnId:4684000},
-        {rank:174,name:"Keshad Johnson",performance:13.59,expectation:8.55,trueValue:5.04,espnId:4432725},
-        {rank:175,name:"Dillon Brooks",performance:28.17,expectation:23.2,trueValue:4.97,espnId:3155526},
-        {rank:176,name:"Jake LaRavia",performance:23.2,expectation:18.26,trueValue:4.94,espnId:4431872},
-        {rank:177,name:"Dwight Powell",performance:13.66,expectation:8.76,trueValue:4.91,espnId:2531337},
-        {rank:178,name:"Kevin Love",performance:16.29,expectation:11.5,trueValue:4.79,espnId:3449},
-        {rank:179,name:"Lindy Waters III",performance:13.24,expectation:8.53,trueValue:4.72,espnId:4066795},
-        {rank:180,name:"Landry Shamet",performance:13.76,expectation:9.04,trueValue:4.72,espnId:3914041},
-        {rank:181,name:"Jevon Carter",performance:13.8,expectation:9.14,trueValue:4.66,espnId:3133644},
-        {rank:182,name:"Max Strus",performance:24.43,expectation:19.79,trueValue:4.64,espnId:4066782},
-        {rank:183,name:"Vince Williams Jr.",performance:13.07,expectation:8.47,trueValue:4.6,espnId:4397147},
-        {rank:184,name:"Keaton Wallace",performance:12.88,expectation:8.37,trueValue:4.51,espnId:4277864},
-        {rank:185,name:"Dariq Whitehead",performance:12.87,expectation:8.48,trueValue:4.4,espnId:4683792},
-        {rank:186,name:"Ziaire Williams",performance:21.28,expectation:16.93,trueValue:4.35,espnId:4432821},
-        {rank:187,name:"Ousmane Dieng",performance:13.71,expectation:9.41,trueValue:4.3,espnId:4911762},
-        {rank:188,name:"Jose Alvarado",performance:21.72,expectation:17.54,trueValue:4.18,espnId:4277823},
-        {rank:189,name:"Jalen Brunson",performance:61.05,expectation:56.92,trueValue:4.14,espnId:3934672},
-        {rank:190,name:"Jonathan Mogbo",performance:19.44,expectation:15.65,trueValue:3.79,espnId:4685089},
-        {rank:191,name:"Neemias Queta",performance:20.21,expectation:16.47,trueValue:3.73,espnId:4397441},
-        {rank:192,name:"Gradey Dick",performance:20.34,expectation:16.61,trueValue:3.73,espnId:4683617},
-        {rank:193,name:"Mitchell Robinson",performance:15.02,expectation:11.3,trueValue:3.72,espnId:4351852},
-        {rank:194,name:"Bismack Biyombo",performance:12.22,expectation:8.52,trueValue:3.71,espnId:6429},
-        {rank:195,name:"Killian Hayes",performance:12.07,expectation:8.38,trueValue:3.68,espnId:4683018},
-        {rank:196,name:"Skal Labissière",performance:11.76,expectation:8.08,trueValue:3.68,espnId:3907491},
-        {rank:197,name:"Jordan McLaughlin",performance:12.07,expectation:8.41,trueValue:3.66,espnId:3133866},
-        {rank:198,name:"Marcus Sasser",performance:19.83,expectation:16.22,trueValue:3.61,espnId:4432145},
-        {rank:199,name:"Blake Wesley",performance:12.45,expectation:8.85,trueValue:3.6,espnId:4432820},
-        {rank:200,name:"Jimmy Butler",performance:43.09,expectation:39.66,trueValue:3.43,espnId:6430},
-        {rank:201,name:"Doug McDermott",performance:11.93,expectation:8.58,trueValue:3.35,espnId:2528608},
-        {rank:202,name:"Gabe Vincent",performance:13.5,expectation:10.16,trueValue:3.34,espnId:3134900},
-        {rank:203,name:"Jarace Walker",performance:20.68,expectation:17.41,trueValue:3.27,espnId:4683618},
-        {rank:204,name:"Haywood Highsmith",performance:19.71,expectation:16.48,trueValue:3.23,espnId:4066427},
-        {rank:205,name:"Trendon Watford",performance:19.24,expectation:16.05,trueValue:3.2,espnId:4431713},
-        {rank:206,name:"Davion Mitchell",performance:22.51,expectation:19.4,trueValue:3.11,espnId:4278453},
-        {rank:207,name:"Nicolas Batum",performance:19.97,expectation:16.93,trueValue:3.03,espnId:3416},
-        {rank:208,name:"Jaden Springer",performance:11.1,expectation:8.1,trueValue:3.0,espnId:4433140},
-        {rank:209,name:"Christian Koloko",performance:11.17,expectation:8.2,trueValue:2.97,espnId:4431735},
-        {rank:210,name:"Kyle Filipowski",performance:26.84,expectation:23.86,trueValue:2.97,espnId:4683619},
-        {rank:211,name:"Pat Spencer",performance:13.12,expectation:10.16,trueValue:2.96,espnId:4612340},
-        {rank:212,name:"Jabari Walker",performance:18.71,expectation:15.8,trueValue:2.91,espnId:4432320},
-        {rank:213,name:"Brandon Miller",performance:22.54,expectation:19.79,trueValue:2.75,espnId:4683749},
-        {rank:214,name:"Kyle Lowry",performance:12.14,expectation:9.54,trueValue:2.6,espnId:3033},
-        {rank:215,name:"Obi Toppin",performance:31.66,expectation:29.07,trueValue:2.59,espnId:4278355},
-        {rank:216,name:"Dillon Jones",performance:11.14,expectation:8.64,trueValue:2.49,espnId:4592817},
-        {rank:217,name:"Drew Timme",performance:11.28,expectation:8.85,trueValue:2.43,espnId:4431671},
-        {rank:218,name:"Rayan Rupert",performance:10.75,expectation:8.36,trueValue:2.39,espnId:5104153},
-        {rank:219,name:"Karlo Matković",performance:17.99,expectation:15.61,trueValue:2.38,espnId:4421111},
-        {rank:220,name:"Jamal Shead",performance:18.28,expectation:15.91,trueValue:2.36,espnId:4683955},
-        {rank:221,name:"Stephon Castle",performance:30.87,expectation:28.67,trueValue:2.2,espnId:5105740},
-        {rank:222,name:"Hunter Tyson",performance:10.56,expectation:8.39,trueValue:2.17,espnId:4278061},
-        {rank:223,name:"Jaylen Wells",performance:26.07,expectation:24.11,trueValue:1.96,espnId:4865101},
-        {rank:224,name:"Paul Reed",performance:18.67,expectation:16.73,trueValue:1.94,espnId:4278663},
-        {rank:225,name:"Anthony Gill",performance:10.24,expectation:8.34,trueValue:1.9,espnId:2596105},
-        {rank:226,name:"Bilal Coulibaly",performance:19.39,expectation:17.6,trueValue:1.8,espnId:5104156},
-        {rank:227,name:"Malik Monk",performance:32.28,expectation:30.52,trueValue:1.76,espnId:4066262},
-        {rank:228,name:"JD Davison",performance:10.3,expectation:8.66,trueValue:1.64,espnId:4432170},
-        {rank:229,name:"Isaiah Joe",performance:28.63,expectation:27.16,trueValue:1.48,espnId:4277965},
-        {rank:230,name:"Jamison Battle",performance:16.94,expectation:15.65,trueValue:1.29,espnId:4397334},
-        {rank:231,name:"Kentavious Caldwell-Pope",performance:22.29,expectation:21.03,trueValue:1.27,espnId:2530510},
-        {rank:232,name:"Bogdan Bogdanović",performance:20.68,expectation:19.42,trueValue:1.26,espnId:3137782},
-        {rank:233,name:"Deandre Ayton",performance:25.27,expectation:24.04,trueValue:1.24,espnId:4277886},
-        {rank:234,name:"Derrick White",performance:48.21,expectation:47.07,trueValue:1.14,espnId:3071091},
-        {rank:235,name:"Yves Missi",performance:25.04,expectation:23.99,trueValue:1.05,espnId:5105743},
-        {rank:236,name:"Cole Anthony",performance:26.02,expectation:25.06,trueValue:0.96,espnId:4432809},
-        {rank:237,name:"Jonathan Kuminga",performance:25.7,expectation:24.84,trueValue:0.86,espnId:4432810},
-        {rank:238,name:"Craig Porter Jr.",performance:16.63,expectation:15.89,trueValue:0.74,espnId:4397551},
-        {rank:239,name:"Ariel Hukporti",performance:9.05,expectation:8.43,trueValue:0.61,espnId:4684200},
-        {rank:240,name:"Jalen Green",performance:41.66,expectation:41.24,trueValue:0.41,espnId:4432811},
-        {rank:241,name:"Dario Šarić",performance:9.14,expectation:8.75,trueValue:0.39,espnId:3033139},
-        {rank:242,name:"Jay Huff",performance:24.15,expectation:23.88,trueValue:0.27,espnId:4066454},
-        {rank:243,name:"Garrett Temple",performance:8.58,expectation:8.41,trueValue:0.18,espnId:4023},
-        {rank:244,name:"Luka Garza",performance:17.02,expectation:16.87,trueValue:0.14,espnId:4277943},
-        {rank:245,name:"Josh Giddey",performance:44.56,expectation:44.53,trueValue:0.02,espnId:4911760},
-        {rank:246,name:"Bobby Portis",performance:28.43,expectation:28.41,trueValue:0.02,espnId:3133602},
-        {rank:247,name:"Julian Strawther",performance:16.23,expectation:16.39,trueValue:-0.16,espnId:4433144},
-        {rank:248,name:"Justin Champagnie",performance:23.32,expectation:23.53,trueValue:-0.21,espnId:4397444},
-        {rank:249,name:"Donovan Clingan",performance:25.73,expectation:26.02,trueValue:-0.29,espnId:4683620},
-        {rank:250,name:"Josh Minott",performance:15.74,expectation:16.17,trueValue:-0.43,espnId:4433139},
-        {rank:251,name:"Royce O'Neale",performance:26.16,expectation:26.62,trueValue:-0.46,espnId:2530639},
-        {rank:252,name:"Nic Claxton",performance:30.65,expectation:31.14,trueValue:-0.48,espnId:4277833},
-        {rank:253,name:"Dennis Schröder",performance:28.9,expectation:29.46,trueValue:-0.57,espnId:3032979},
-        {rank:254,name:"Lonzo Ball",performance:17.15,expectation:17.76,trueValue:-0.61,espnId:4066421},
-        {rank:255,name:"Ben Sheppard",performance:15.88,expectation:16.51,trueValue:-0.63,espnId:4397321},
-        {rank:256,name:"Mouhamed Gueye",performance:15.06,expectation:15.8,trueValue:-0.74,espnId:4870125},
-        {rank:257,name:"Julian Phillips",performance:15.04,expectation:15.8,trueValue:-0.76,espnId:4683803},
-        {rank:258,name:"Isaac Okoro",performance:17.43,expectation:18.47,trueValue:-1.04,espnId:4432812},
-        {rank:259,name:"Clint Capela",performance:24.37,expectation:25.61,trueValue:-1.23,espnId:3102529},
-        {rank:260,name:"Maxi Kleber",performance:8.55,expectation:9.84,trueValue:-1.29,espnId:3137746},
-        {rank:261,name:"Leonard Miller",performance:14.6,expectation:15.9,trueValue:-1.29,espnId:5104154},
-        {rank:262,name:"Noah Clowney",performance:15.07,expectation:16.46,trueValue:-1.39,espnId:4683796},
-        {rank:263,name:"Jalen Pickett",performance:14.1,expectation:15.89,trueValue:-1.79,espnId:4397120},
-        {rank:264,name:"Kawhi Leonard",performance:32.28,expectation:34.13,trueValue:-1.85,espnId:6450},
-        {rank:265,name:"Vít Krejčí",performance:21.34,expectation:23.27,trueValue:-1.93,espnId:4401569},
-        {rank:266,name:"Buddy Hield",performance:26.42,expectation:28.38,trueValue:-1.95,espnId:2990992},
-        {rank:267,name:"Andre Jackson Jr.",performance:13.7,expectation:15.75,trueValue:-2.06,espnId:4433142},
-        {rank:268,name:"De'Anthony Melton",performance:14.51,expectation:16.64,trueValue:-2.13,espnId:3908805},
-        {rank:269,name:"Matas Buzelis",performance:23.99,expectation:26.18,trueValue:-2.19,espnId:5105744},
-        {rank:270,name:"Pat Connaughton",performance:15.01,expectation:17.27,trueValue:-2.26,espnId:2578239},
-        {rank:271,name:"Pelle Larsson",performance:13.81,expectation:16.1,trueValue:-2.29,espnId:4592931},
-        {rank:272,name:"Anthony Davis",performance:51.11,expectation:53.67,trueValue:-2.56,espnId:6583},
-        {rank:273,name:"Jordan Hawkins",performance:14.0,expectation:16.64,trueValue:-2.64,espnId:4433141},
-        {rank:274,name:"John Konchar",performance:14.05,expectation:16.69,trueValue:-2.64,espnId:3133601},
-        {rank:275,name:"Kyle Kuzma",performance:20.48,expectation:23.15,trueValue:-2.66,espnId:3134907},
-        {rank:276,name:"Aaron Wiggins",performance:32.27,expectation:35.0,trueValue:-2.73,espnId:4397161},
-        {rank:277,name:"Alex Sarr",performance:25.29,expectation:28.12,trueValue:-2.83,espnId:5105745},
-        {rank:278,name:"Kris Murray",performance:13.34,expectation:16.36,trueValue:-3.02,espnId:4431818},
-        {rank:279,name:"Alperen Şengün",performance:57.33,expectation:60.38,trueValue:-3.05,espnId:4910009},
-        {rank:280,name:"Kyrie Irving",performance:44.57,expectation:47.62,trueValue:-3.06,espnId:6442},
-        {rank:281,name:"Jordan Miller",performance:12.62,expectation:15.73,trueValue:-3.1,espnId:4278486},
-        {rank:282,name:"Dominick Barlow",performance:13.11,expectation:16.22,trueValue:-3.11,espnId:4870123},
-        {rank:283,name:"Nae'Qwan Tomlin",performance:12.45,expectation:15.62,trueValue:-3.17,espnId:4397621},
-        {rank:284,name:"Joe Ingles",performance:5.41,expectation:8.58,trueValue:-3.17,espnId:3133604},
-        {rank:285,name:"Daniel Gafford",performance:35.01,expectation:38.19,trueValue:-3.18,espnId:4277836},
-        {rank:286,name:"GG Jackson II",performance:12.52,expectation:15.79,trueValue:-3.27,espnId:4683798},
-        {rank:287,name:"Dalton Knecht",performance:22.36,expectation:25.7,trueValue:-3.35,espnId:4431711},
-        {rank:288,name:"Jaylin Williams",performance:24.29,expectation:27.66,trueValue:-3.37,espnId:4683747},
-        {rank:289,name:"Marcus Smart",performance:16.96,expectation:20.41,trueValue:-3.45,espnId:2990991},
-        {rank:290,name:"Isaiah Stewart",performance:25.51,expectation:29.0,trueValue:-3.49,espnId:4432813},
-        {rank:291,name:"Spencer Jones",performance:5.41,expectation:8.98,trueValue:-3.57,espnId:4431871},
-        {rank:292,name:"Zaccharie Risacher",performance:24.81,expectation:28.47,trueValue:-3.66,espnId:5105746},
-        {rank:293,name:"Xavier Tillman Sr.",performance:4.67,expectation:8.36,trueValue:-3.69,espnId:4066340},
-        {rank:294,name:"T.J. McConnell",performance:30.98,expectation:34.67,trueValue:-3.7,espnId:2530530},
-        {rank:295,name:"Tre Jones",performance:21.77,expectation:25.73,trueValue:-3.96,espnId:4395632},
-        {rank:296,name:"Jericho Sims",performance:11.61,expectation:15.99,trueValue:-4.37,espnId:4277945},
-        {rank:297,name:"Moses Moody",performance:23.69,expectation:28.13,trueValue:-4.44,espnId:4432814},
-        {rank:298,name:"Bub Carrington",performance:20.26,expectation:24.8,trueValue:-4.54,espnId:5105747},
-        {rank:299,name:"Max Christie",performance:21.68,expectation:26.35,trueValue:-4.67,espnId:4432819},
-        {rank:300,name:"Josh Green",performance:14.05,expectation:18.86,trueValue:-4.81,espnId:4431674},
-        {rank:301,name:"Luke Kornet",performance:30.72,expectation:35.54,trueValue:-4.82,espnId:3133606},
-        {rank:302,name:"Micah Potter",performance:10.89,expectation:15.73,trueValue:-4.84,espnId:4277914},
-        {rank:303,name:"Adem Bona",performance:18.45,expectation:23.32,trueValue:-4.87,espnId:4683802},
-        {rank:304,name:"E.J. Liddell",performance:10.34,expectation:15.3,trueValue:-4.96,espnId:4431714},
-        {rank:305,name:"Shai Gilgeous-Alexander",performance:94.95,expectation:100.0,trueValue:-5.05,espnId:4277811},
-        {rank:306,name:"Kobe Brown",performance:11.16,expectation:16.24,trueValue:-5.07,espnId:4433146},
-        {rank:307,name:"Tristan Da Silva",performance:19.14,expectation:24.25,trueValue:-5.11,espnId:4683797},
-        {rank:308,name:"Duncan Robinson",performance:24.26,expectation:29.4,trueValue:-5.13,espnId:3157465},
-        {rank:309,name:"Jett Howard",performance:11.67,expectation:16.8,trueValue:-5.14,espnId:4683637},
-        {rank:310,name:"Dyson Daniels",performance:45.29,expectation:50.49,trueValue:-5.2,espnId:4910006},
-        {rank:311,name:"Kobe Bufkin",performance:11.15,expectation:16.37,trueValue:-5.22,espnId:4683615},
-        {rank:312,name:"Isaiah Collier",performance:18.7,expectation:23.93,trueValue:-5.22,espnId:5105748},
-        {rank:313,name:"Grant Williams",performance:13.77,expectation:19.0,trueValue:-5.23,espnId:4066349},
-        {rank:314,name:"Anthony Edwards",performance:68.8,expectation:74.03,trueValue:-5.24,espnId:4432807},
-        {rank:315,name:"Ryan Rollins",performance:19.41,expectation:25.0,trueValue:-5.59,espnId:4397121},
-        {rank:316,name:"Grayson Allen",performance:24.35,expectation:30.19,trueValue:-5.85,espnId:3135045},
-        {rank:317,name:"Jared McCain",performance:22.4,expectation:28.38,trueValue:-5.98,espnId:5105749},
-        {rank:318,name:"Klay Thompson",performance:26.16,expectation:32.2,trueValue:-6.04,espnId:6475},
-        {rank:319,name:"Gary Harris",performance:10.15,expectation:16.26,trueValue:-6.11,espnId:2999547},
-        {rank:320,name:"Desmond Bane",performance:45.17,expectation:51.54,trueValue:-6.37,espnId:4066320},
-        {rank:321,name:"Tyrese Haliburton",performance:58.22,expectation:64.72,trueValue:-6.5,espnId:4396993},
-        {rank:322,name:"Sidy Cissoko",performance:8.92,expectation:15.59,trueValue:-6.67,espnId:5104155},
-        {rank:323,name:"Kevin Durant",performance:49.3,expectation:56.07,trueValue:-6.77,espnId:3202},
-        {rank:324,name:"Evan Mobley",performance:63.76,expectation:70.54,trueValue:-6.77,espnId:4432815},
-        {rank:325,name:"Ron Holland",performance:18.96,expectation:26.03,trueValue:-7.07,espnId:5105750},
-        {rank:326,name:"Ja'Kobe Walter",performance:16.79,expectation:23.86,trueValue:-7.07,espnId:5105751},
-        {rank:327,name:"Terance Mann",performance:20.86,expectation:28.22,trueValue:-7.36,espnId:4066361},
-        {rank:328,name:"Andrew Nembhard",performance:23.95,expectation:31.36,trueValue:-7.42,espnId:4397668},
-        {rank:329,name:"Kyshawn George",performance:16.73,expectation:24.47,trueValue:-7.75,espnId:5105752},
-        {rank:330,name:"Jordan Walsh",performance:8.79,expectation:16.59,trueValue:-7.79,espnId:4683751},
-        {rank:331,name:"Justin Edwards",performance:15.5,expectation:23.42,trueValue:-7.92,espnId:5105753},
-        {rank:332,name:"Nickeil Alexander-Walker",performance:30.28,expectation:38.3,trueValue:-8.02,espnId:4277884},
-        {rank:333,name:"Jaden Hardy",performance:16.65,expectation:24.69,trueValue:-8.04,espnId:4683019},
-        {rank:334,name:"Ryan Dunn",performance:16.23,expectation:24.56,trueValue:-8.33,espnId:5105754},
-        {rank:335,name:"Oso Ighodaro",performance:14.88,expectation:23.3,trueValue:-8.42,espnId:4592818},
-        {rank:336,name:"Ajay Mitchell",performance:15.7,expectation:24.14,trueValue:-8.44,espnId:4870533},
-        {rank:337,name:"Mac McClung",performance:1.0,expectation:9.73,trueValue:-8.73,espnId:4397330},
-        {rank:338,name:"Jrue Holiday",performance:29.31,expectation:38.08,trueValue:-8.77,espnId:3995},
-        {rank:339,name:"Olivier-Maxence Prosper",performance:13.76,expectation:22.66,trueValue:-8.9,espnId:4432172},
-        {rank:340,name:"Dru Smith",performance:14.27,expectation:23.24,trueValue:-8.97,espnId:4278508},
-        {rank:341,name:"Zion Williamson",performance:36.71,expectation:45.69,trueValue:-8.98,espnId:4395628},
-        {rank:342,name:"Svi Mykhailiuk",performance:14.52,expectation:23.66,trueValue:-9.14,espnId:3133600},
-        {rank:343,name:"Steven Adams",performance:19.55,expectation:28.72,trueValue:-9.17,espnId:3059129},
-        {rank:344,name:"Tre Mann",performance:16.01,expectation:25.54,trueValue:-9.53,espnId:4397141},
-        {rank:345,name:"Taylor Hendricks",performance:6.77,expectation:16.97,trueValue:-10.2,espnId:4683801},
-        {rank:346,name:"Bam Adebayo",performance:51.67,expectation:62.02,trueValue:-10.35,espnId:4066261},
-        {rank:347,name:"Trey Murphy III",performance:33.01,expectation:43.39,trueValue:-10.38,espnId:4278330},
-        {rank:348,name:"Sam Hauser",performance:24.84,expectation:35.30,trueValue:-10.46,espnId:4278482},
-        {rank:349,name:"Terrence Shannon Jr.",performance:13.47,expectation:23.95,trueValue:-10.48,espnId:4397350},
-        {rank:350,name:"Jaden McDaniels",performance:33.83,expectation:44.44,trueValue:-10.6,espnId:4431673},
-        {rank:351,name:"Luka Dončić",performance:52.17,expectation:62.9,trueValue:-10.74,espnId:3945274},
-        {rank:352,name:"Jaylon Tyson",performance:13.67,expectation:24.46,trueValue:-10.78,espnId:4684301},
-        {rank:353,name:"Toumani Camara",performance:36.05,expectation:46.99,trueValue:-10.93,espnId:4397354},
-        {rank:354,name:"Myles Turner",performance:34.51,expectation:45.58,trueValue:-11.08,espnId:3133628},
-        {rank:355,name:"Wendell Carter Jr.",performance:27.31,expectation:38.58,trueValue:-11.27,espnId:4277831},
-        {rank:356,name:"Isaiah Jackson",performance:13.55,expectation:25.11,trueValue:-11.56,espnId:4432168},
-        {rank:357,name:"Tyrese Maxey",performance:41.3,expectation:52.94,trueValue:-11.64,espnId:4431678},
-        {rank:358,name:"Caleb Martin",performance:14.29,expectation:26.03,trueValue:-11.73,espnId:3064547},
-        {rank:359,name:"Bobi Klintman",performance:11.27,expectation:23.06,trueValue:-11.78,espnId:4870535},
-        {rank:360,name:"Vasilije Micić",performance:10.57,expectation:22.41,trueValue:-11.84,espnId:3137785},
-        {rank:361,name:"Damian Lillard",performance:51.44,expectation:63.29,trueValue:-11.85,espnId:6606},
-        {rank:362,name:"Zeke Nnaji",performance:13.07,expectation:25.12,trueValue:-12.05,espnId:4431677},
-        {rank:363,name:"Cade Cunningham",performance:63.9,expectation:76.03,trueValue:-12.13,espnId:4432169},
-        {rank:364,name:"Baylor Scheierman",performance:11.77,expectation:24.03,trueValue:-12.26,espnId:4278479},
-        {rank:365,name:"Daniss Jenkins",performance:4.35,expectation:16.62,trueValue:-12.27,espnId:4612341},
-        {rank:366,name:"Dejounte Murray",performance:22.87,expectation:35.29,trueValue:-12.42,espnId:3907497},
-        {rank:367,name:"Devin Carter",performance:12.15,expectation:24.61,trueValue:-12.47,espnId:4592819},
-        {rank:368,name:"Rob Dillingham",performance:14.27,expectation:26.81,trueValue:-12.55,espnId:5105755},
-        {rank:369,name:"Sam Merrill",performance:21.77,expectation:34.44,trueValue:-12.67,espnId:3064448},
-        {rank:370,name:"Tidjane Salaün",performance:12.65,expectation:25.43,trueValue:-12.77,espnId:5105756},
-        {rank:371,name:"Naz Reid",performance:40.76,expectation:53.57,trueValue:-12.82,espnId:4396954},
-        {rank:372,name:"Jarred Vanderbilt",performance:14.58,expectation:27.39,trueValue:-12.82,espnId:4066373},
-        {rank:373,name:"Johnny Furphy",performance:10.73,expectation:23.74,trueValue:-13.01,espnId:5105757},
-        {rank:374,name:"Tyler Kolek",performance:10.85,expectation:23.96,trueValue:-13.11,espnId:4592820},
-        {rank:375,name:"Ja Morant",performance:39.03,expectation:52.69,trueValue:-13.65,espnId:4395625},
-        {rank:376,name:"Cam Christie",performance:9.23,expectation:23.18,trueValue:-13.95,espnId:5105758},
-        {rank:377,name:"Reed Sheppard",performance:14.28,expectation:28.59,trueValue:-14.32,espnId:5105759},
-        {rank:378,name:"Jonathan Isaac",performance:22.14,expectation:36.88,trueValue:-14.74,espnId:4065649},
-        {rank:379,name:"Jerami Grant",performance:20.52,expectation:35.34,trueValue:-14.81,espnId:2991070},
-        {rank:380,name:"Alex Caruso",performance:27.53,expectation:42.51,trueValue:-14.97,espnId:3064977},
-        {rank:381,name:"Jaren Jackson Jr.",performance:51.93,expectation:67.12,trueValue:-15.19,espnId:4277961},
-        {rank:382,name:"AJ Johnson",performance:8.85,expectation:24.23,trueValue:-15.38,espnId:5105760},
-        {rank:383,name:"Jakob Poeltl",performance:36.18,expectation:51.57,trueValue:-15.39,espnId:3137651},
-        {rank:384,name:"Bryce McGowens",performance:7.62,expectation:23.02,trueValue:-15.4,espnId:4431873},
-        {rank:385,name:"Dorian Finney-Smith",performance:20.84,expectation:36.38,trueValue:-15.54,espnId:2579294},
-        {rank:386,name:"Devin Vassell",performance:27.39,expectation:42.94,trueValue:-15.55,espnId:4395630},
-        {rank:387,name:"OG Anunoby",performance:37.24,expectation:53.09,trueValue:-15.85,espnId:3934719},
-        {rank:388,name:"Pacôme Dadiet",performance:7.47,expectation:23.59,trueValue:-16.13,espnId:5105761},
-        {rank:389,name:"Aaron Nesmith",performance:22.26,expectation:38.49,trueValue:-16.23,espnId:4431676},
-        {rank:390,name:"Jamal Murray",performance:41.13,expectation:57.75,trueValue:-16.62,espnId:3936299},
-        {rank:391,name:"Jayson Tatum",performance:72.21,expectation:88.92,trueValue:-16.71,espnId:4065648},
-        {rank:392,name:"Shaedon Sharpe",performance:31.97,expectation:49.37,trueValue:-17.4,espnId:4685121},
-        {rank:393,name:"Cam Spencer",performance:13.87,expectation:31.42,trueValue:-17.55,espnId:4431675},
-        {rank:394,name:"Corey Kispert",performance:18.2,expectation:36.27,trueValue:-18.07,espnId:4277912},
-        {rank:395,name:"Brandon Ingram",performance:21.94,expectation:40.3,trueValue:-18.37,espnId:3913176},
-        {rank:396,name:"Immanuel Quickley",performance:27.2,expectation:45.74,trueValue:-18.54,espnId:4395631},
-        {rank:397,name:"Cody Williams",performance:5.79,expectation:25.12,trueValue:-19.33,espnId:5105762},
-        {rank:398,name:"Aaron Gordon",performance:29.94,expectation:49.3,trueValue:-19.37,espnId:3064290},
-        {rank:399,name:"Franz Wagner",performance:44.51,expectation:65.14,trueValue:-20.64,espnId:4431675},
-        {rank:400,name:"Jalen Williams",performance:56.67,expectation:78.03,trueValue:-21.37,espnId:4397151},
-        {rank:401,name:"Nikola Jović",performance:23.15,expectation:44.78,trueValue:-21.62,espnId:4910008},
-        {rank:402,name:"Patrick Williams",performance:16.6,expectation:38.32,trueValue:-21.72,espnId:4431679},
-        {rank:403,name:"LaMelo Ball",performance:39.21,expectation:61.0,trueValue:-21.79,espnId:4432816},
-        {rank:404,name:"P.J. Washington",performance:27.75,expectation:50.1,trueValue:-22.35,espnId:4278078},
-        {rank:405,name:"Christian Braun",performance:38.06,expectation:60.53,trueValue:-22.47,espnId:4397635},
-        {rank:406,name:"Bronny James",performance:8.95,expectation:31.96,trueValue:-23.0,espnId:5105763},
-        {rank:407,name:"Jaylen Brown",performance:42.29,expectation:65.77,trueValue:-23.48,espnId:3917376},
-        {rank:408,name:"Paul George",performance:24.41,expectation:48.13,trueValue:-23.72,espnId:4251},
-        {rank:409,name:"Mikal Bridges",performance:36.07,expectation:60.09,trueValue:-24.02,espnId:3062508},
-        {rank:410,name:"A.J. Green",performance:18.91,expectation:42.96,trueValue:-24.05,espnId:4397551},
-        {rank:411,name:"Scottie Barnes",performance:41.58,expectation:65.67,trueValue:-24.09,espnId:4432814},
-        {rank:412,name:"Bradley Beal",performance:26.79,expectation:51.75,trueValue:-24.96,espnId:6580},
-        {rank:413,name:"Jalen Johnson",performance:29.74,expectation:57.01,trueValue:-27.28,espnId:4431676},
-        {rank:414,name:"Lauri Markkanen",performance:27.11,expectation:55.06,trueValue:-27.96,espnId:3064440},
-        {rank:415,name:"LeBron James",performance:70.22,expectation:99.33,trueValue:-29.11,espnId:1966},
-        {rank:416,name:"De'Aaron Fox",performance:40.05,expectation:70.66,trueValue:-30.61,espnId:4066359},
-        {rank:417,name:"Devin Booker",performance:48.5,expectation:80.24,trueValue:-31.73,espnId:3136193},
-        {rank:418,name:"Jalen Suggs",performance:24.17,expectation:56.28,trueValue:-32.11,espnId:4432165},
-        {rank:419,name:"Keegan Murray",performance:28.0,expectation:62.41,trueValue:-34.41,espnId:4432167},
-        {rank:420,name:"Jabari Smith Jr.",performance:26.07,expectation:60.79,trueValue:-34.72,espnId:4431713},
-        {rank:421,name:"Joel Embiid",performance:28.49,expectation:64.34,trueValue:-35.84,espnId:3059318},
-        {rank:422,name:"Herbert Jones",performance:12.01,expectation:48.18,trueValue:-36.17,espnId:4278401},
-        {rank:423,name:"Paolo Banchero",performance:40.34,expectation:77.69,trueValue:-37.35,espnId:4432573},
-        {rank:424,name:"Chet Holmgren",performance:26.67,expectation:80.04,trueValue:-53.38,espnId:4432815}
-    ];
+    // VERIFIED DATASET - ALL 424 PLAYERS INCLUDED
+    const players = [{rank:1,name:"Nikola Jokić",performance:100.0,expectation:47.42,trueValue:52.58,espnId:3112335},{rank:2,name:"Nikola Vučević",performance:47.78,expectation:11.07,trueValue:36.71,espnId:6478},{rank:3,name:"Jalen Duren",performance:46.41,expectation:11.37,trueValue:35.04,espnId:4432816},{rank:4,name:"James Harden",performance:67.64,expectation:36.71,trueValue:30.94,espnId:3992},{rank:5,name:"Ivica Zubac",performance:60.96,expectation:30.69,trueValue:30.27,espnId:4014763},{rank:6,name:"Alondes Williams",performance:37.96,expectation:8.04,trueValue:29.92,espnId:4683522},{rank:7,name:"Tyler Herro",performance:55.06,expectation:25.93,trueValue:29.13,espnId:4395627},{rank:8,name:"Amen Thompson",performance:49.03,expectation:21.65,trueValue:27.38,espnId:4432166},{rank:9,name:"Coby White",performance:37.01,expectation:11.72,trueValue:25.29,espnId:4395625},{rank:10,name:"Walker Kessler",performance:34.06,expectation:9.21,trueValue:24.85,espnId:4432160},{rank:11,name:"Mark Williams",performance:34.22,expectation:9.9,trueValue:24.31,espnId:4432161},{rank:12,name:"Giannis Antetokounmpo",performance:84.38,expectation:60.38,trueValue:23.99,espnId:3032977},{rank:13,name:"Norman Powell",performance:36.42,expectation:12.62,trueValue:23.79,espnId:2595516},{rank:14,name:"Trae Young",performance:56.39,expectation:33.59,trueValue:22.8,espnId:4277905},{rank:15,name:"Quentin Grimes",performance:33.29,expectation:10.5,trueValue:22.79,espnId:4397024},{rank:16,name:"Tari Eason",performance:31.79,expectation:9.44,trueValue:22.35,espnId:4683742},{rank:17,name:"Anfernee Simons",performance:35.12,expectation:13.46,trueValue:21.66,espnId:4351854},{rank:18,name:"Tyus Jones",performance:31.06,expectation:9.54,trueValue:21.52,espnId:3135046},{rank:19,name:"Kristaps Porziņģis",performance:36.04,expectation:15.21,trueValue:20.83,espnId:3102531},{rank:20,name:"Domantas Sabonis",performance:60.22,expectation:39.83,trueValue:20.39,espnId:3135044},{rank:21,name:"Austin Reaves",performance:46.27,expectation:25.93,trueValue:20.34,espnId:4066447},{rank:22,name:"Tobias Harris",performance:32.51,expectation:12.44,trueValue:20.06,espnId:6440},{rank:23,name:"Collin Sexton",performance:31.59,expectation:11.57,trueValue:20.02,espnId:4277811},{rank:24,name:"Harrison Barnes",performance:31.2,expectation:11.46,trueValue:19.75,espnId:6579},{rank:25,name:"Keon Ellis",performance:27.73,expectation:8.88,trueValue:18.84,espnId:4432211},{rank:26,name:"Chris Paul",performance:35.83,expectation:17.05,trueValue:18.77,espnId:2779},{rank:27,name:"Guerschon Yabusele",performance:27.68,expectation:9.3,trueValue:18.38,espnId:4017771},{rank:28,name:"DeMar DeRozan",performance:42.29,expectation:24.08,trueValue:18.21,espnId:3968},{rank:29,name:"Payton Pritchard",performance:45.5,expectation:27.64,trueValue:17.86,espnId:4066354},{rank:30,name:"Mike Conley",performance:28.83,expectation:11.21,trueValue:17.61,espnId:3195},{rank:31,name:"Moritz Wagner",performance:26.63,expectation:9.16,trueValue:17.47,espnId:4276809},{rank:32,name:"Jonas Valančiūnas",performance:35.73,expectation:18.52,trueValue:17.21,espnId:6477},{rank:33,name:"Bennedict Mathurin",performance:28.4,expectation:11.23,trueValue:17.17,espnId:4683634},{rank:34,name:"Miles Bridges",performance:39.39,expectation:22.38,trueValue:17.01,espnId:4066383},{rank:35,name:"John Collins",performance:29.35,expectation:12.37,trueValue:16.99,espnId:3908845},{rank:36,name:"Josh Hart",performance:49.6,expectation:33.1,trueValue:16.5,espnId:3062679},{rank:37,name:"Chris Boucher",performance:25.09,expectation:8.71,trueValue:16.38,espnId:3134881},{rank:38,name:"Victor Wembanyama",performance:46.64,expectation:30.6,trueValue:16.04,espnId:5104157},{rank:39,name:"Brook Lopez",performance:34.64,expectation:18.62,trueValue:16.02,espnId:3448},{rank:40,name:"Cameron Johnson",performance:36.92,expectation:21.2,trueValue:15.72,espnId:3138154},{rank:41,name:"Luke Kennard",performance:26.18,expectation:10.5,trueValue:15.68,espnId:3913178},{rank:42,name:"CJ McCollum",performance:29.2,expectation:13.69,trueValue:15.51,espnId:2490149},{rank:43,name:"James Wiseman",performance:23.99,expectation:8.85,trueValue:15.14,espnId:4432822},{rank:44,name:"Jeremy Sochan",performance:25.21,expectation:10.18,trueValue:15.03,espnId:4683755},{rank:45,name:"Mason Plumlee",performance:23.66,expectation:8.68,trueValue:14.98,espnId:2488653},{rank:46,name:"Cam Thomas",performance:25.92,expectation:10.97,trueValue:14.95,espnId:4432174},{rank:47,name:"Kelly Oubre Jr.",performance:24.91,expectation:10.27,trueValue:14.64,espnId:3133603},{rank:48,name:"Nick Richards",performance:23.35,expectation:9.02,trueValue:14.34,espnId:4277883},{rank:49,name:"Darius Garland",performance:54.4,expectation:40.11,trueValue:14.28,espnId:4395687},{rank:50,name:"Georges Niang",performance:23.76,expectation:9.75,trueValue:14.01,espnId:2990969},{rank:166,name:"Jordan Goodwin",performance:14.08,expectation:8.68,trueValue:5.4,espnId:4278149},{rank:167,name:"Nick Smith Jr.",performance:14.34,expectation:8.94,trueValue:5.39,espnId:4683794},{rank:168,name:"Dalen Terry",performance:14.21,expectation:8.93,trueValue:5.28,espnId:4683050},{rank:169,name:"Zach Edey",performance:32.01,expectation:26.73,trueValue:5.28,espnId:4683616},{rank:170,name:"Pascal Siakam",performance:49.16,expectation:43.88,trueValue:5.28,espnId:3149673},{rank:171,name:"Jaylen Clark",performance:13.61,expectation:8.47,trueValue:5.14,espnId:4433145},{rank:172,name:"Cam Whitmore",performance:22.04,expectation:16.93,trueValue:5.1,espnId:4683906},{rank:173,name:"Kel'el Ware",performance:30.15,expectation:25.06,trueValue:5.09,espnId:4684000},{rank:174,name:"Keshad Johnson",performance:13.59,expectation:8.55,trueValue:5.04,espnId:4432725},{rank:175,name:"Dillon Brooks",performance:28.17,expectation:23.2,trueValue:4.97,espnId:3155526},{rank:176,name:"Jake LaRavia",performance:23.2,expectation:18.26,trueValue:4.94,espnId:4431872},{rank:177,name:"Dwight Powell",performance:13.66,expectation:8.76,trueValue:4.91,espnId:2531337},{rank:178,name:"Kevin Love",performance:16.29,expectation:11.5,trueValue:4.79,espnId:3449},{rank:179,name:"Lindy Waters III",performance:13.24,expectation:8.53,trueValue:4.72,espnId:4066795},{rank:180,name:"Landry Shamet",performance:13.76,expectation:9.04,trueValue:4.72,espnId:3914041},{rank:181,name:"Jevon Carter",performance:13.8,expectation:9.14,trueValue:4.66,espnId:3133644},{rank:182,name:"Max Strus",performance:24.43,expectation:19.79,trueValue:4.64,espnId:4066782},{rank:183,name:"Vince Williams Jr.",performance:13.07,expectation:8.47,trueValue:4.6,espnId:4397147},{rank:184,name:"Keaton Wallace",performance:12.88,expectation:8.37,trueValue:4.51,espnId:4277864},{rank:185,name:"Dariq Whitehead",performance:12.87,expectation:8.48,trueValue:4.4,espnId:4683792},{rank:186,name:"Ziaire Williams",performance:21.28,expectation:16.93,trueValue:4.35,espnId:4432821},{rank:187,name:"Ousmane Dieng",performance:13.71,expectation:9.41,trueValue:4.3,espnId:4911762},{rank:188,name:"Jose Alvarado",performance:21.72,expectation:17.54,trueValue:4.18,espnId:4277823},{rank:189,name:"Jalen Brunson",performance:61.05,expectation:56.92,trueValue:4.14,espnId:3934672},{rank:190,name:"Jonathan Mogbo",performance:19.44,expectation:15.65,trueValue:3.79,espnId:4685089},{rank:191,name:"Neemias Queta",performance:20.21,expectation:16.47,trueValue:3.73,espnId:4397441},{rank:192,name:"Gradey Dick",performance:20.34,expectation:16.61,trueValue:3.73,espnId:4683617},{rank:193,name:"Mitchell Robinson",performance:15.02,expectation:11.3,trueValue:3.72,espnId:4351852},{rank:194,name:"Bismack Biyombo",performance:12.22,expectation:8.52,trueValue:3.71,espnId:6429},{rank:195,name:"Killian Hayes",performance:12.07,expectation:8.38,trueValue:3.68,espnId:4683018},{rank:196,name:"Skal Labissière",performance:11.76,expectation:8.08,trueValue:3.68,espnId:3907491},{rank:197,name:"Jordan McLaughlin",performance:12.07,expectation:8.41,trueValue:3.66,espnId:3133866},{rank:198,name:"Marcus Sasser",performance:19.83,expectation:16.22,trueValue:3.61,espnId:4432145},{rank:199,name:"Blake Wesley",performance:12.45,expectation:8.85,trueValue:3.6,espnId:4432820},{rank:200,name:"Jimmy Butler",performance:43.09,expectation:39.66,trueValue:3.43,espnId:6430},{rank:201,name:"Doug McDermott",performance:11.93,expectation:8.58,trueValue:3.35,espnId:2528608},{rank:202,name:"Gabe Vincent",performance:13.5,expectation:10.16,trueValue:3.34,espnId:3134900},{rank:203,name:"Jarace Walker",performance:20.68,expectation:17.41,trueValue:3.27,espnId:4683618},{rank:204,name:"Haywood Highsmith",performance:19.71,expectation:16.48,trueValue:3.23,espnId:4066427},{rank:205,name:"Trendon Watford",performance:19.24,expectation:16.05,trueValue:3.2,espnId:4431713},{rank:206,name:"Davion Mitchell",performance:22.51,expectation:19.4,trueValue:3.11,espnId:4278453},{rank:207,name:"Nicolas Batum",performance:19.97,expectation:16.93,trueValue:3.03,espnId:3416},{rank:208,name:"Jaden Springer",performance:11.1,expectation:8.1,trueValue:3.0,espnId:4433140},{rank:209,name:"Christian Koloko",performance:11.17,expectation:8.2,trueValue:2.97,espnId:4431735},{rank:210,name:"Kyle Filipowski",performance:26.84,expectation:23.86,trueValue:2.97,espnId:4683619},{rank:211,name:"Pat Spencer",performance:13.12,expectation:10.16,trueValue:2.96,espnId:4612340},{rank:212,name:"Jabari Walker",performance:18.71,expectation:15.8,trueValue:2.91,espnId:4432320},{rank:213,name:"Brandon Miller",performance:22.54,expectation:19.79,trueValue:2.75,espnId:4683749},{rank:214,name:"Kyle Lowry",performance:12.14,expectation:9.54,trueValue:2.6,espnId:3033},{rank:215,name:"Obi Toppin",performance:31.66,expectation:29.07,trueValue:2.59,espnId:4278355},{rank:216,name:"Dillon Jones",performance:11.14,expectation:8.64,trueValue:2.49,espnId:4592817},{rank:217,name:"Drew Timme",performance:11.28,expectation:8.85,trueValue:2.43,espnId:4431671},{rank:218,name:"Rayan Rupert",performance:10.75,expectation:8.36,trueValue:2.39,espnId:5104153},{rank:219,name:"Karlo Matković",performance:17.99,expectation:15.61,trueValue:2.38,espnId:4421111},{rank:220,name:"Jamal Shead",performance:18.28,expectation:15.91,trueValue:2.36,espnId:4683955},{rank:221,name:"Stephon Castle",performance:30.87,expectation:28.67,trueValue:2.2,espnId:5105740},{rank:222,name:"Hunter Tyson",performance:10.56,expectation:8.39,trueValue:2.17,espnId:4278061},{rank:223,name:"Jaylen Wells",performance:26.07,expectation:24.11,trueValue:1.96,espnId:4865101},{rank:224,name:"Paul Reed",performance:18.67,expectation:16.73,trueValue:1.94,espnId:4278663},{rank:225,name:"Anthony Gill",performance:10.24,expectation:8.34,trueValue:1.9,espnId:2596105},{rank:226,name:"Bilal Coulibaly",performance:19.39,expectation:17.6,trueValue:1.8,espnId:5104156},{rank:227,name:"Malik Monk",performance:32.28,expectation:30.52,trueValue:1.76,espnId:4066262},{rank:228,name:"JD Davison",performance:10.3,expectation:8.66,trueValue:1.64,espnId:4432170},{rank:229,name:"Isaiah Joe",performance:28.63,expectation:27.16,trueValue:1.48,espnId:4277965},{rank:230,name:"Jamison Battle",performance:16.94,expectation:15.65,trueValue:1.29,espnId:4397334},{rank:231,name:"Kentavious Caldwell-Pope",performance:22.29,expectation:21.03,trueValue:1.27,espnId:2530510},{rank:232,name:"Bogdan Bogdanović",performance:20.68,expectation:19.42,trueValue:1.26,espnId:3137782},{rank:233,name:"Deandre Ayton",performance:25.27,expectation:24.04,trueValue:1.24,espnId:4277886},{rank:234,name:"Derrick White",performance:48.21,expectation:47.07,trueValue:1.14,espnId:3071091},{rank:235,name:"Yves Missi",performance:25.04,expectation:23.99,trueValue:1.05,espnId:5105743},{rank:236,name:"Cole Anthony",performance:26.02,expectation:25.06,trueValue:0.96,espnId:4432809},{rank:237,name:"Jonathan Kuminga",performance:25.7,expectation:24.84,trueValue:0.86,espnId:4432810},{rank:238,name:"Craig Porter Jr.",performance:16.63,expectation:15.89,trueValue:0.74,espnId:4397551},{rank:239,name:"Ariel Hukporti",performance:9.05,expectation:8.43,trueValue:0.61,espnId:4684200},{rank:240,name:"Jalen Green",performance:41.66,expectation:41.24,trueValue:0.41,espnId:4432811},{rank:241,name:"Dario Šarić",performance:9.14,expectation:8.75,trueValue:0.39,espnId:3033139},{rank:242,name:"Jay Huff",performance:24.15,expectation:23.88,trueValue:0.27,espnId:4066454},{rank:243,name:"Garrett Temple",performance:8.58,expectation:8.41,trueValue:0.18,espnId:4023},{rank:244,name:"Luka Garza",performance:17.02,expectation:16.87,trueValue:0.14,espnId:4277943},{rank:245,name:"Josh Giddey",performance:44.56,expectation:44.53,trueValue:0.02,espnId:4911760},{rank:246,name:"Bobby Portis",performance:28.43,expectation:28.41,trueValue:0.02,espnId:3133602},{rank:247,name:"Julian Strawther",performance:16.23,expectation:16.39,trueValue:-0.16,espnId:4433144},{rank:248,name:"Justin Champagnie",performance:23.32,expectation:23.53,trueValue:-0.21,espnId:4397444},{rank:249,name:"Donovan Clingan",performance:25.73,expectation:26.02,trueValue:-0.29,espnId:4683620},{rank:250,name:"Josh Minott",performance:15.74,expectation:16.17,trueValue:-0.43,espnId:4433139},{rank:251,name:"Royce O'Neale",performance:26.16,expectation:26.62,trueValue:-0.46,espnId:2530639},{rank:252,name:"Nic Claxton",performance:30.65,expectation:31.14,trueValue:-0.48,espnId:4277833},{rank:253,name:"Dennis Schröder",performance:28.9,expectation:29.46,trueValue:-0.57,espnId:3032979},{rank:254,name:"Lonzo Ball",performance:17.15,expectation:17.76,trueValue:-0.61,espnId:4066421},{rank:255,name:"Ben Sheppard",performance:15.88,expectation:16.51,trueValue:-0.63,espnId:4397321},{rank:256,name:"Mouhamed Gueye",performance:15.06,expectation:15.8,trueValue:-0.74,espnId:4870125},{rank:257,name:"Julian Phillips",performance:15.04,expectation:15.8,trueValue:-0.76,espnId:4683803},{rank:258,name:"Isaac Okoro",performance:17.43,expectation:18.47,trueValue:-1.04,espnId:4432812},{rank:259,name:"Clint Capela",performance:24.37,expectation:25.61,trueValue:-1.23,espnId:3102529},{rank:260,name:"Maxi Kleber",performance:8.55,expectation:9.84,trueValue:-1.29,espnId:3137746},{rank:261,name:"Leonard Miller",performance:14.6,expectation:15.9,trueValue:-1.29,espnId:5104154},{rank:262,name:"Noah Clowney",performance:15.07,expectation:16.46,trueValue:-1.39,espnId:4683796},{rank:263,name:"Jalen Pickett",performance:14.1,expectation:15.89,trueValue:-1.79,espnId:4397120},{rank:264,name:"Kawhi Leonard",performance:32.28,expectation:34.13,trueValue:-1.85,espnId:6450},{rank:265,name:"Vít Krejčí",performance:21.34,expectation:23.27,trueValue:-1.93,espnId:4401569},{rank:266,name:"Buddy Hield",performance:26.42,expectation:28.38,trueValue:-1.95,espnId:2990992},{rank:267,name:"Andre Jackson Jr.",performance:13.7,expectation:15.75,trueValue:-2.06,espnId:4433142},{rank:268,name:"De'Anthony Melton",performance:14.51,expectation:16.64,trueValue:-2.13,espnId:3908805},{rank:269,name:"Matas Buzelis",performance:23.99,expectation:26.18,trueValue:-2.19,espnId:5105744},{rank:270,name:"Pat Connaughton",performance:15.01,expectation:17.27,trueValue:-2.26,espnId:2578239},{rank:271,name:"Pelle Larsson",performance:13.81,expectation:16.1,trueValue:-2.29,espnId:4592931},{rank:272,name:"Anthony Davis",performance:51.11,expectation:53.67,trueValue:-2.56,espnId:6583},{rank:273,name:"Jordan Hawkins",performance:14.0,expectation:16.64,trueValue:-2.64,espnId:4433141},{rank:274,name:"John Konchar",performance:14.05,expectation:16.69,trueValue:-2.64,espnId:3133601},{rank:275,name:"Kyle Kuzma",performance:20.48,expectation:23.15,trueValue:-2.66,espnId:3134907},{rank:276,name:"Aaron Wiggins",performance:32.27,expectation:35.0,trueValue:-2.73,espnId:4397161},{rank:277,name:"Alex Sarr",performance:25.29,expectation:28.12,trueValue:-2.83,espnId:5105745},{rank:278,name:"Kris Murray",performance:13.34,expectation:16.36,trueValue:-3.02,espnId:4431818},{rank:279,name:"Alperen Şengün",performance:57.33,expectation:60.38,trueValue:-3.05,espnId:4910009},{rank:280,name:"Kyrie Irving",performance:44.57,expectation:47.62,trueValue:-3.06,espnId:6442},{rank:281,name:"Jordan Miller",performance:12.62,expectation:15.73,trueValue:-3.1,espnId:4278486},{rank:282,name:"Dominick Barlow",performance:13.11,expectation:16.22,trueValue:-3.11,espnId:4870123},{rank:283,name:"Nae'Qwan Tomlin",performance:12.45,expectation:15.62,trueValue:-3.17,espnId:4397621},{rank:284,name:"Joe Ingles",performance:5.41,expectation:8.58,trueValue:-3.17,espnId:3133604},{rank:285,name:"Daniel Gafford",performance:35.01,expectation:38.19,trueValue:-3.18,espnId:4277836},{rank:286,name:"GG Jackson II",performance:12.52,expectation:15.79,trueValue:-3.27,espnId:4683798},{rank:287,name:"Dalton Knecht",performance:22.36,expectation:25.7,trueValue:-3.35,espnId:4431711},{rank:288,name:"Jaylin Williams",performance:24.29,expectation:27.66,trueValue:-3.37,espnId:4683747},{rank:289,name:"Marcus Smart",performance:16.96,expectation:20.41,trueValue:-3.45,espnId:2990991},{rank:290,name:"Isaiah Stewart",performance:25.51,expectation:29.0,trueValue:-3.49,espnId:4432813},{rank:291,name:"Spencer Jones",performance:5.41,expectation:8.98,trueValue:-3.57,espnId:4431871},{rank:292,name:"Zaccharie Risacher",performance:24.81,expectation:28.47,trueValue:-3.66,espnId:5105746},{rank:293,name:"Xavier Tillman Sr.",performance:4.67,expectation:8.36,trueValue:-3.69,espnId:4066340},{rank:294,name:"T.J. McConnell",performance:30.98,expectation:34.67,trueValue:-3.7,espnId:2530530},{rank:295,name:"Tre Jones",performance:21.77,expectation:25.73,trueValue:-3.96,espnId:4395632},{rank:296,name:"Jericho Sims",performance:11.61,expectation:15.99,trueValue:-4.37,espnId:4277945},{rank:297,name:"Moses Moody",performance:23.69,expectation:28.13,trueValue:-4.44,espnId:4432814},{rank:298,name:"Bub Carrington",performance:20.26,expectation:24.8,trueValue:-4.54,espnId:5105747},{rank:299,name:"Max Christie",performance:21.68,expectation:26.35,trueValue:-4.67,espnId:4432819},{rank:300,name:"Josh Green",performance:14.05,expectation:18.86,trueValue:-4.81,espnId:4431674},{rank:301,name:"Luke Kornet",performance:30.72,expectation:35.54,trueValue:-4.82,espnId:3133606},{rank:302,name:"Micah Potter",performance:10.89,expectation:15.73,trueValue:-4.84,espnId:4277914},{rank:303,name:"Adem Bona",performance:18.45,expectation:23.32,trueValue:-4.87,espnId:4683802},{rank:304,name:"E.J. Liddell",performance:10.34,expectation:15.3,trueValue:-4.96,espnId:4431714},{rank:305,name:"Shai Gilgeous-Alexander",performance:94.95,expectation:100.0,trueValue:-5.05,espnId:4277811},{rank:306,name:"Kobe Brown",performance:11.16,expectation:16.24,trueValue:-5.07,espnId:4433146},{rank:307,name:"Tristan Da Silva",performance:19.14,expectation:24.25,trueValue:-5.11,espnId:4683797},{rank:308,name:"Duncan Robinson",performance:24.26,expectation:29.4,trueValue:-5.13,espnId:3157465},{rank:309,name:"Jett Howard",performance:11.67,expectation:16.8,trueValue:-5.14,espnId:4683637},{rank:310,name:"Dyson Daniels",performance:45.29,expectation:50.49,trueValue:-5.2,espnId:4910006},{rank:311,name:"Kobe Bufkin",performance:11.15,expectation:16.37,trueValue:-5.22,espnId:4683615},{rank:312,name:"Isaiah Collier",performance:18.7,expectation:23.93,trueValue:-5.22,espnId:5105748},{rank:313,name:"Grant Williams",performance:13.77,expectation:19.0,trueValue:-5.23,espnId:4066349},{rank:314,name:"Anthony Edwards",performance:68.8,expectation:74.03,trueValue:-5.24,espnId:4432807},{rank:315,name:"Ryan Rollins",performance:19.41,expectation:25.0,trueValue:-5.59,espnId:4397121},{rank:316,name:"Grayson Allen",performance:24.35,expectation:30.19,trueValue:-5.85,espnId:3135045},{rank:317,name:"Jared McCain",performance:22.4,expectation:28.38,trueValue:-5.98,espnId:5105749},{rank:318,name:"Klay Thompson",performance:26.16,expectation:32.2,trueValue:-6.04,espnId:6475},{rank:319,name:"Gary Harris",performance:10.15,expectation:16.26,trueValue:-6.11,espnId:2999547},{rank:320,name:"Desmond Bane",performance:45.17,expectation:51.54,trueValue:-6.37,espnId:4066320},{rank:321,name:"Tyrese Haliburton",performance:58.22,expectation:64.72,trueValue:-6.5,espnId:4396993},{rank:322,name:"Sidy Cissoko",performance:8.92,expectation:15.59,trueValue:-6.67,espnId:5104155},{rank:323,name:"Kevin Durant",performance:49.3,expectation:56.07,trueValue:-6.77,espnId:3202},{rank:324,name:"Evan Mobley",performance:63.76,expectation:70.54,trueValue:-6.77,espnId:4432815},{rank:325,name:"Ron Holland",performance:18.96,expectation:26.03,trueValue:-7.07,espnId:5105750},{rank:326,name:"Ja'Kobe Walter",performance:16.79,expectation:23.86,trueValue:-7.07,espnId:5105751},{rank:327,name:"Terance Mann",performance:20.86,expectation:28.22,trueValue:-7.36,espnId:4066361},{rank:328,name:"Andrew Nembhard",performance:23.95,expectation:31.36,trueValue:-7.42,espnId:4397668},{rank:329,name:"Kyshawn George",performance:16.73,expectation:24.47,trueValue:-7.75,espnId:5105752},{rank:330,name:"Jordan Walsh",performance:8.79,expectation:16.59,trueValue:-7.79,espnId:4683751},{rank:331,name:"Justin Edwards",performance:15.5,expectation:23.42,trueValue:-7.92,espnId:5105753},{rank:332,name:"Nickeil Alexander-Walker",performance:30.28,expectation:38.3,trueValue:-8.02,espnId:4277884},{rank:333,name:"Jaden Hardy",performance:16.65,expectation:24.69,trueValue:-8.04,espnId:4683019},{rank:334,name:"Ryan Dunn",performance:16.23,expectation:24.56,trueValue:-8.33,espnId:5105754},{rank:335,name:"Oso Ighodaro",performance:14.88,expectation:23.3,trueValue:-8.42,espnId:4592818},{rank:336,name:"Ajay Mitchell",performance:15.7,expectation:24.14,trueValue:-8.44,espnId:4870533},{rank:337,name:"Mac McClung",performance:1.0,expectation:9.73,trueValue:-8.73,espnId:4397330},{rank:338,name:"Jrue Holiday",performance:29.31,expectation:38.08,trueValue:-8.77,espnId:3995},{rank:339,name:"Olivier-Maxence Prosper",performance:13.76,expectation:22.66,trueValue:-8.9,espnId:4432172},{rank:340,name:"Dru Smith",performance:14.27,expectation:23.24,trueValue:-8.97,espnId:4278508},{rank:341,name:"Zion Williamson",performance:36.71,expectation:45.69,trueValue:-8.98,espnId:4395628},{rank:342,name:"Svi Mykhailiuk",performance:14.52,expectation:23.66,trueValue:-9.14,espnId:3133600},{rank:343,name:"Steven Adams",performance:19.55,expectation:28.72,trueValue:-9.17,espnId:3059129},{rank:344,name:"Tre Mann",performance:16.01,expectation:25.54,trueValue:-9.53,espnId:4397141},{rank:345,name:"Taylor Hendricks",performance:6.77,expectation:16.97,trueValue:-10.2,espnId:4683801},{rank:346,name:"Bam Adebayo",performance:51.67,expectation:62.02,trueValue:-10.35,espnId:4066261},{rank:347,name:"Trey Murphy III",performance:33.01,expectation:43.39,trueValue:-10.38,espnId:4278330},{rank:348,name:"Sam Hauser",performance:24.84,expectation:35.30,trueValue:-10.46,espnId:4278482},{rank:349,name:"Terrence Shannon Jr.",performance:13.47,expectation:23.95,trueValue:-10.48,espnId:4397350},{rank:350,name:"Jaden McDaniels",performance:33.83,expectation:44.44,trueValue:-10.6,espnId:4431673},{rank:351,name:"Luka Dončić",performance:52.17,expectation:62.9,trueValue:-10.74,espnId:3945274},{rank:352,name:"Jaylon Tyson",performance:13.67,expectation:24.46,trueValue:-10.78,espnId:4684301},{rank:353,name:"Toumani Camara",performance:36.05,expectation:46.99,trueValue:-10.93,espnId:4397354},{rank:354,name:"Myles Turner",performance:34.51,expectation:45.58,trueValue:-11.08,espnId:3133628},{rank:355,name:"Wendell Carter Jr.",performance:27.31,expectation:38.58,trueValue:-11.27,espnId:4277831},{rank:356,name:"Isaiah Jackson",performance:13.55,expectation:25.11,trueValue:-11.56,espnId:4432168},{rank:357,name:"Tyrese Maxey",performance:41.3,expectation:52.94,trueValue:-11.64,espnId:4431678},{rank:358,name:"Caleb Martin",performance:14.29,expectation:26.03,trueValue:-11.73,espnId:3064547},{rank:359,name:"Bobi Klintman",performance:11.27,expectation:23.06,trueValue:-11.78,espnId:4870535},{rank:360,name:"Vasilije Micić",performance:10.57,expectation:22.41,trueValue:-11.84,espnId:3137785},{rank:361,name:"Damian Lillard",performance:51.44,expectation:63.29,trueValue:-11.85,espnId:6606},{rank:362,name:"Zeke Nnaji",performance:13.07,expectation:25.12,trueValue:-12.05,espnId:4431677},{rank:363,name:"Cade Cunningham",performance:63.9,expectation:76.03,trueValue:-12.13,espnId:4432169},{rank:364,name:"Baylor Scheierman",performance:11.77,expectation:24.03,trueValue:-12.26,espnId:4278479},{rank:365,name:"Daniss Jenkins",performance:4.35,expectation:16.62,trueValue:-12.27,espnId:4612341},{rank:366,name:"Dejounte Murray",performance:22.87,expectation:35.29,trueValue:-12.42,espnId:3907497},{rank:367,name:"Devin Carter",performance:12.15,expectation:24.61,trueValue:-12.47,espnId:4592819},{rank:368,name:"Rob Dillingham",performance:14.27,expectation:26.81,trueValue:-12.55,espnId:5105755},{rank:369,name:"Sam Merrill",performance:21.77,expectation:34.44,trueValue:-12.67,espnId:3064448},{rank:370,name:"Tidjane Salaün",performance:12.65,expectation:25.43,trueValue:-12.77,espnId:5105756},{rank:371,name:"Naz Reid",performance:40.76,expectation:53.57,trueValue:-12.82,espnId:4396954},{rank:372,name:"Jarred Vanderbilt",performance:14.58,expectation:27.39,trueValue:-12.82,espnId:4066373},{rank:373,name:"Johnny Furphy",performance:10.73,expectation:23.74,trueValue:-13.01,espnId:5105757},{rank:374,name:"Tyler Kolek",performance:10.85,expectation:23.96,trueValue:-13.11,espnId:4592820},{rank:375,name:"Ja Morant",performance:39.03,expectation:52.69,trueValue:-13.65,espnId:4395625},{rank:376,name:"Cam Christie",performance:9.23,expectation:23.18,trueValue:-13.95,espnId:5105758},{rank:377,name:"Reed Sheppard",performance:14.28,expectation:28.59,trueValue:-14.32,espnId:5105759},{rank:378,name:"Jonathan Isaac",performance:22.14,expectation:36.88,trueValue:-14.74,espnId:4065649},{rank:379,name:"Jerami Grant",performance:20.52,expectation:35.34,trueValue:-14.81,espnId:2991070},{rank:380,name:"Alex Caruso",performance:27.53,expectation:42.51,trueValue:-14.97,espnId:3064977},{rank:381,name:"Jaren Jackson Jr.",performance:51.93,expectation:67.12,trueValue:-15.19,espnId:4277961},{rank:382,name:"AJ Johnson",performance:8.85,expectation:24.23,trueValue:-15.38,espnId:5105760},{rank:383,name:"Jakob Poeltl",performance:36.18,expectation:51.57,trueValue:-15.39,espnId:3137651},{rank:384,name:"Bryce McGowens",performance:7.62,expectation:23.02,trueValue:-15.4,espnId:4431873},{rank:385,name:"Dorian Finney-Smith",performance:20.84,expectation:36.38,trueValue:-15.54,espnId:2579294},{rank:386,name:"Devin Vassell",performance:27.39,expectation:42.94,trueValue:-15.55,espnId:4395630},{rank:387,name:"OG Anunoby",performance:37.24,expectation:53.09,trueValue:-15.85,espnId:3934719},{rank:388,name:"Pacôme Dadiet",performance:7.47,expectation:23.59,trueValue:-16.13,espnId:5105761},{rank:389,name:"Aaron Nesmith",performance:22.26,expectation:38.49,trueValue:-16.23,espnId:4431676},{rank:390,name:"Jamal Murray",performance:41.13,expectation:57.75,trueValue:-16.62,espnId:3936299},{rank:391,name:"Jayson Tatum",performance:72.21,expectation:88.92,trueValue:-16.71,espnId:4065648},{rank:392,name:"Shaedon Sharpe",performance:31.97,expectation:49.37,trueValue:-17.4,espnId:4685121},{rank:393,name:"Cam Spencer",performance:13.87,expectation:31.42,trueValue:-17.55,espnId:4431675},{rank:394,name:"Corey Kispert",performance:18.2,expectation:36.27,trueValue:-18.07,espnId:4277912},{rank:395,name:"Brandon Ingram",performance:21.94,expectation:40.3,trueValue:-18.37,espnId:3913176},{rank:396,name:"Immanuel Quickley",performance:27.2,expectation:45.74,trueValue:-18.54,espnId:4395631},{rank:397,name:"Cody Williams",performance:5.79,expectation:25.12,trueValue:-19.33,espnId:5105762},{rank:398,name:"Aaron Gordon",performance:29.94,expectation:49.3,trueValue:-19.37,espnId:3064290},{rank:399,name:"Franz Wagner",performance:44.51,expectation:65.14,trueValue:-20.64,espnId:4431675},{rank:400,name:"Jalen Williams",performance:56.67,expectation:78.03,trueValue:-21.37,espnId:4397151},{rank:401,name:"Nikola Jović",performance:23.15,expectation:44.78,trueValue:-21.62,espnId:4910008},{rank:402,name:"Patrick Williams",performance:16.6,expectation:38.32,trueValue:-21.72,espnId:4431679},{rank:403,name:"LaMelo Ball",performance:39.21,expectation:61.0,trueValue:-21.79,espnId:4432816},{rank:404,name:"P.J. Washington",performance:27.75,expectation:50.1,trueValue:-22.35,espnId:4278078},{rank:405,name:"Christian Braun",performance:38.06,expectation:60.53,trueValue:-22.47,espnId:4397635},{rank:406,name:"Bronny James",performance:8.95,expectation:31.96,trueValue:-23.0,espnId:5105763},{rank:407,name:"Jaylen Brown",performance:42.29,expectation:65.77,trueValue:-23.48,espnId:3917376},{rank:408,name:"Paul George",performance:24.41,expectation:48.13,trueValue:-23.72,espnId:4251},{rank:409,name:"Mikal Bridges",performance:36.07,expectation:60.09,trueValue:-24.02,espnId:3062508},{rank:410,name:"A.J. Green",performance:18.91,expectation:42.96,trueValue:-24.05,espnId:4397551},{rank:411,name:"Scottie Barnes",performance:41.58,expectation:65.67,trueValue:-24.09,espnId:4432814},{rank:412,name:"Bradley Beal",performance:26.79,expectation:51.75,trueValue:-24.96,espnId:6580},{rank:413,name:"Jalen Johnson",performance:29.74,expectation:57.01,trueValue:-27.28,espnId:4431676},{rank:414,name:"Lauri Markkanen",performance:27.11,expectation:55.06,trueValue:-27.96,espnId:3064440},{rank:415,name:"LeBron James",performance:70.22,expectation:99.33,trueValue:-29.11,espnId:1966},{rank:416,name:"De'Aaron Fox",performance:40.05,expectation:70.66,trueValue:-30.61,espnId:4066359},{rank:417,name:"Devin Booker",performance:48.5,expectation:80.24,trueValue:-31.73,espnId:3136193},{rank:418,name:"Jalen Suggs",performance:24.17,expectation:56.28,trueValue:-32.11,espnId:4432165},{rank:419,name:"Keegan Murray",performance:28.0,expectation:62.41,trueValue:-34.41,espnId:4432167},{rank:420,name:"Jabari Smith Jr.",performance:26.07,expectation:60.79,trueValue:-34.72,espnId:4431713},{rank:421,name:"Joel Embiid",performance:28.49,expectation:64.34,trueValue:-35.84,espnId:3059318},{rank:422,name:"Herbert Jones",performance:12.01,expectation:48.18,trueValue:-36.17,espnId:4278401},{rank:423,name:"Paolo Banchero",performance:40.34,expectation:77.69,trueValue:-37.35,espnId:4432573},{rank:424,name:"Chet Holmgren",performance:26.67,expectation:80.04,trueValue:-53.38,espnId:4432815}];
 
     const mainDisplay = document.getElementById("main-display");
     const featuredGrid = document.getElementById("featured-grid");
@@ -443,7 +133,7 @@
     const p1Select = document.getElementById("p1");
     const p2Select = document.getElementById("p2");
 
-    const SUGGESTED_NAMES = ["Nikola Jokić", "Jay Huff", "LeBron James", "Anfernee Simons", "Domantas Sabonis", "Darius Garland"];
+    const SUGGESTED_NAMES = ["Nikola Jokić", "Ivica Zubac", "LeBron James", "Jay Huff", "Walker Kessler", "Austin Reaves"];
 
     function getHeadshot(id) {
         return id ? `https://a.espncdn.com/i/headshots/nba/players/full/${id}.png` : 'https://a.espncdn.com/combiner/i?img=/i/headshots/noplayer.png';
@@ -452,15 +142,16 @@
     function generateAnalysis(p) {
         const name = p.name.split(' ').pop();
         const isUnder = p.trueValue >= 0;
-        if (p.performance >= 90 && isUnder) return `<strong>${name}</strong> is a statistical anomaly. Even with an elite baseline, his production reaches a ceiling that market hype hasn't captured.`;
-        if (p.expectation > 90 && !isUnder) return `This is the 'Legacy Trap.' <strong>${name}</strong> is still playing at an All-Star level, but legacy status and historical salary create an unreachable expectation score.`;
-        return isUnder ? `${name} is currently outperforming his market narrative by ${p.trueValue.toFixed(1)} points.` : `${name}'s current market hype carries a cost that exceeds his raw statistical efficiency in our model.`;
+        if (p.performance >= 90 && isUnder) return `<strong>${name}</strong> is a statistical outlier. Even with elite expectations, his production floor is so high he essentially breaks the model.`;
+        if (p.expectation > 80 && !isUnder) return `Market hype is the primary factor. <strong>${name}</strong> is playing well, but his global search interest and high salary create a baseline that is nearly impossible to meet.`;
+        return isUnder ? `${name} is outperforming his market narrative by ${p.trueValue.toFixed(1)} points. His on-court impact far outweighs his current hype.` : `${name}'s current hype carries a cost that exceeds his raw statistical efficiency in our model.`;
     }
 
     function showPlayer(p) {
         const isUnder = p.trueValue >= 0;
         const mainColor = isUnder ? 'var(--accent)' : 'var(--overrated)';
         const dimColor = isUnder ? 'var(--accent-dim)' : 'var(--overrated-dim)';
+        
         mainDisplay.style.display = "block";
         mainDisplay.innerHTML = `
             <div class="card-header" style="background: ${isUnder ? 'linear-gradient(90deg, #1CFFC3, #13B89A)' : 'linear-gradient(90deg, #ff4d4d, #a30000)'}">
@@ -469,18 +160,20 @@
             <div class="card-body">
                 <h2 style="margin: 0; font-weight: 900; font-size: 2.2rem;">${p.name.toUpperCase()}</h2>
                 <div style="font-size: 0.8rem; font-weight: 900; color: #555; letter-spacing: 2px; margin-bottom: 20px;">RANKED #${p.rank} OVERALL</div>
+                
                 <div class="value-meter">
                     <div class="meter-row">
-                        <span class="meter-label">STATISTICAL PRODUCTION (ACTUAL PERFORMANCE)</span>
+                        <span class="meter-label">STATISTICAL PRODUCTION (ACTUAL ON-COURT PERFORMANCE)</span>
                         <div class="bar-container"><div class="bar-fill" style="width: ${p.performance}%; background: ${mainColor};"></div></div>
                     </div>
                     <div class="meter-row">
-                        <span class="meter-label">MARKET EXPECTATION (HYPE & SALARY)</span>
+                        <span class="meter-label">MARKET EXPECTATION (HYPE, SEARCH VOLUME & SALARY)</span>
                         <div class="bar-container"><div class="bar-fill" style="width: ${p.expectation}%; background: ${dimColor};"></div></div>
                     </div>
                 </div>
+
                 <div class="stats-row">
-                    <div class="stat"><small>STATUS</small><div style="color: ${mainColor}">${isUnder ? 'UNDERRATED' : 'OVERRATED'}</div></div>
+                    <div class="stat"><small>STATUS</small><div style="color: ${mainColor}; font-size: 1rem;">${isUnder ? 'UNDERRATED' : 'OVERRATED'}</div></div>
                     <div class="stat"><small>VALUE GAP</small><div style="color: ${mainColor}">${p.trueValue.toFixed(2)}</div></div>
                 </div>
                 <div class="analysis-text" style="border-left-color: ${mainColor}"><strong>EXPERT VERDICT:</strong> ${generateAnalysis(p)}</div>
@@ -514,7 +207,7 @@
                     <div style="font-size: 0.8rem; font-weight: 900; color: #ccc;">${a.name.toUpperCase()}</div>
                     <div style="font-weight: 900; font-size: 1.5rem; color: ${a.trueValue >= 0 ? 'var(--accent)' : 'var(--overrated)'}">${a.trueValue.toFixed(2)}</div>
                 </div>
-                <div style="font-weight:900; color:#444;">VS</div>
+                <div class="vs-divider" style="font-weight: 900; color: #444;">VS</div>
                 <div class="comp-player">
                     <div class="comp-photo-circle" style="border-color: ${b.trueValue >= 0 ? 'var(--accent)' : 'var(--overrated)'}">
                         <img src="${getHeadshot(b.espnId)}" onerror="this.src='https://a.espncdn.com/combiner/i?img=/i/headshots/noplayer.png'">

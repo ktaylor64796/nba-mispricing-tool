@@ -38,7 +38,7 @@
         .mission-statement {
             color: #888;
             font-size: 1rem;
-            max-width: 700px;
+            max-width: 750px;
             margin: 15px auto 0;
             font-weight: 400;
         }
@@ -85,16 +85,15 @@
         }
         .mini-card:hover { border-color: var(--accent); background: rgba(66, 245, 197, 0.05); transform: translateY(-3px); }
         
-        /* Fixed Aspect Ratio for Mini Heads */
         .mini-avatar { width: 60px; height: 60px; margin: 0 auto; overflow: hidden; border-radius: 50%; background: #222; }
         .mini-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
         .mini-name { font-size: 0.8rem; font-weight: 700; margin-top: 8px; color: #ccc; }
 
-        /* Main Display Results */
+        /* Main Display Card */
         #main-display { display: none; }
+        .action-card { overflow: hidden; position: relative; }
         .card-header { height: 100px; position: relative; margin-bottom: 60px; border-radius: 12px; }
         
-        /* Fixed Aspect Ratio for Main Headshot */
         .photo-container {
             width: 130px;
             height: 130px;
@@ -111,10 +110,10 @@
         
         .card-body { text-align: center; padding: 0 10px 20px; }
         
-        .value-meter { margin: 25px 0; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 12px; }
-        .meter-row { margin-bottom: 12px; text-align: left; }
-        .meter-label { font-size: 0.65rem; font-weight: 900; color: #888; letter-spacing: 1px; margin-bottom: 5px; display: block; }
-        .bar-container { background: #222; height: 12px; border-radius: 6px; width: 100%; position: relative; overflow: hidden; }
+        .value-meter { margin: 25px 0; background: rgba(0,0,0,0.25); padding: 20px; border-radius: 12px; border: 1px solid var(--border); }
+        .meter-row { margin-bottom: 15px; text-align: left; }
+        .meter-label { font-size: 0.65rem; font-weight: 900; color: #aaa; letter-spacing: 1.2px; margin-bottom: 6px; display: block; }
+        .bar-container { background: #000; height: 12px; border-radius: 6px; width: 100%; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
         .bar-fill { height: 100%; border-radius: 6px; transition: width 1s ease-out; }
         
         .stats-row { display: flex; justify-content: center; gap: 40px; margin: 25px 0; border-top: 1px solid var(--border); padding-top: 20px; }
@@ -122,7 +121,7 @@
         .stat div { font-size: 1.8rem; font-weight: 900; }
         .score { font-size: 4.5rem; font-weight: 900; line-height: 1; margin: 10px 0; }
 
-        .analysis-text { font-size: 0.95rem; color: #ccc; background: rgba(255,255,255,0.04); padding: 20px; border-radius: 12px; margin-top: 20px; text-align: left; border-left: 4px solid var(--accent); font-style: italic; }
+        .analysis-text { font-size: 1rem; color: #ccc; background: rgba(255,255,255,0.04); padding: 25px; border-radius: 12px; margin-top: 20px; text-align: left; border-left: 4px solid var(--accent); font-style: italic; }
 
         /* Compare Controls */
         .compare-controls { display: flex; gap: 12px; align-items: center; margin-top: 20px; }
@@ -143,12 +142,12 @@
         <div class="logo">ACTION <span>ANALYTICS</span></div>
         <h1>NBA PLAYER <span>VALUE CALCULATOR</span></h1>
         <p class="mission-statement">
-            Comparing <strong>On-Court Production</strong> (Actual performance metrics) vs. <strong>Market Expectation</strong> (Hype, Search Volume, and Salary).
+            Comparing <strong>On-Court Production</strong> (Advanced impact & raw volume) vs. <strong>Market Expectation</strong> (Salary, search interest, and legacy hype).
         </p>
     </header>
 
     <div class="panel">
-        <input type="text" id="search" placeholder="Type a player's name...">
+        <input type="text" id="search" placeholder="Search 400+ players...">
         <div id="suggestion-label" style="font-size: 0.7rem; color: #555; margin-bottom: 12px; font-weight: 900; letter-spacing: 2px;">SUGGESTED ANALYTICS</div>
         <div class="suggestion-grid" id="featured-grid"></div>
     </div>
@@ -168,15 +167,20 @@
 </div>
 
 <script>
-    // FULL DATASET (Simplified for the example, ensure your 424 array is here)
+    // THE MASTER 424 DATASET (Simplified for code block, ensure your full array is here)
     const players = [
         {rank:1,name:"Nikola Jokić",performance:100.00,expectation:47.42,trueValue:52.58,espnId:3112335},
         {rank:2,name:"Nikola Vučević",performance:47.78,expectation:11.07,trueValue:36.71,espnId:6478},
         {rank:3,name:"Jalen Duren",performance:46.41,expectation:11.37,trueValue:35.04,espnId:4432816},
         {rank:4,name:"James Harden",performance:67.64,expectation:36.71,trueValue:30.94,espnId:3992},
+        {rank:7,name:"Tyler Herro",performance:55.06,expectation:25.93,trueValue:29.13,espnId:4395627},
+        {rank:8,name:"Amen Thompson",performance:49.03,expectation:21.65,trueValue:27.38,espnId:4432166},
+        {rank:38,name:"Victor Wembanyama",performance:46.64,expectation:30.60,trueValue:16.04,espnId:5104157},
+        {rank:305,name:"Shai Gilgeous-Alexander",performance:94.95,expectation:100.00,trueValue:-5.05,espnId:4277811},
+        {rank:391,name:"Jayson Tatum",performance:72.21,expectation:88.92,trueValue:-16.71,espnId:4065648},
         {rank:415,name:"LeBron James",performance:70.22,expectation:99.33,trueValue:-29.11,espnId:1966},
         {rank:424,name:"Chet Holmgren",performance:26.67,expectation:80.04,trueValue:-53.38,espnId:4432815}
-        /* ... ADD FULL 424 ARRAY HERE ... */
+        // ... (Paste all other 413 players here)
     ];
 
     const mainDisplay = document.getElementById("main-display");
@@ -185,31 +189,34 @@
     const p1Select = document.getElementById("p1");
     const p2Select = document.getElementById("p2");
 
-    const SUGGESTED_NAMES = ["Nikola Jokić", "James Harden", "LeBron James", "Chet Holmgren"];
+    const SUGGESTED_NAMES = ["Nikola Jokić", "James Harden", "Victor Wembanyama", "LeBron James", "Chet Holmgren", "Shai Gilgeous-Alexander"];
 
-    // FAILSAGE IMAGE LOGIC (Amy's Note)
     function getHeadshot(id) {
-        if (!id) return 'https://a.espncdn.com/combiner/i?img=/i/headshots/noplayer.png';
+        if (!id) return 'https://a.espncdn.com/combiner/i?img=/i/headshots/noplayer.png&w=200&h=150';
         return `https://a.espncdn.com/i/headshots/nba/players/full/${id}.png`;
     }
 
+    // PULLING IN RAW DATA NARRATIVES (Amy's & Ben's feedback)
     function generateAnalysis(p) {
         const name = p.name.split(' ').pop();
         const isUnderrated = p.trueValue >= 0;
         
         if (p.performance >= 90 && isUnderrated) {
-            return `<strong>${name}</strong> is a statistical anomaly. Despite carrying an elite MVP baseline, his box score production is so high that he literally breaks the model. He provides the league's most dominant ROI because his on-court impact has reached a ceiling that market hype cannot catch up to.`;
+            return `<strong>${name}</strong> is a statistical anomaly. Despite carrying an elite MVP baseline, his box score production is so massive (Score: ${p.performance.toFixed(0)}) that he literally breaks the model. He provides the league's highest ROI because his production has reached a ceiling that market hype cannot catch up to.`;
         }
         if (p.expectation > 90 && !isUnderrated) {
-            return `This is the 'Legacy Trap.' <strong>${name}</strong> is still playing at an All-Star level, but he is being measured against a near-perfect Expectation Score (${p.expectation.toFixed(0)}) driven by salary and GOAT-level fame. He isn't playing poorly; he's just a victim of unreachable historical standards.`;
+            return `This is a classic 'Legacy Trap.' <strong>${name}</strong> is still playing at an All-Star level, but he is being measured against a near-perfect Expectation Score of ${p.expectation.toFixed(0)} driven by global search volume and a veteran max-contract. He isn't playing poorly; he's just a victim of unreachable standards.`;
         }
-        if (p.expectation > 70 && p.performance < 35) {
-            return `The data identifies a massive 'Hype Gap.' While <strong>${name}</strong> is a high-impact young player, his media footprint and draft-status expectations (Score: ${p.expectation.toFixed(0)}) currently dwarf his raw statistical volume. The model sees a player whose narrative is currently larger than his box score.`;
+        if (p.expectation > 75 && p.performance < 30) {
+            return `The model identifies a significant 'Hype Overhang' here. While <strong>${name}</strong> has a massive media footprint (Expectation: ${p.expectation.toFixed(0)}), his current raw volume and efficiency (Production: ${p.performance.toFixed(0)}) haven't caught up to his market narrative.`;
+        }
+        if (p.expectation < 20 && p.performance > 45) {
+            return `<strong>${name}</strong> is a 'Quiet Workhorse.' He delivers elite-level efficiency and volume, yet his search interest and social footprint are nearly zero (Expectation: ${p.expectation.toFixed(0)}). This lack of hype creates a top-tier positive value gap.`;
         }
         if (isUnderrated) {
-            return `Providing a value gap of <strong>+${p.trueValue.toFixed(1)}</strong>, ${name} is currently outperforming his market narrative. His production-to-paycheck ratio suggests he is one of the most 'mispriced' positive assets in the league.`;
+            return `${name} currently provides a value gap of <strong>+${p.trueValue.toFixed(1)}</strong>. He is outperforming his market narrative, suggesting his statistical production is deeper than his current paycheck and public popularity would suggest.`;
         } else {
-            return `While a productive player, ${name} carries a negative value gap of <strong>${p.trueValue.toFixed(1)}</strong>. This indicates that his combined salary and public hype are currently higher than his measured on-court efficiency.`;
+            return `${name} carries a negative value gap of <strong>${p.trueValue.toFixed(1)}</strong>. This suggests his combined salary and public hype are currently pacing ahead of his measured on-court efficiency.`;
         }
     }
 
@@ -224,7 +231,7 @@
         mainDisplay.innerHTML = `
             <div class="card-header" style="background: ${isUnder ? 'linear-gradient(90deg, #1CFFC3, #13B89A)' : 'linear-gradient(90deg, #ff4d4d, #a30000)'}">
                 <div class="photo-container">
-                    <img class="main-photo" src="${getHeadshot(p.espnId)}" onerror="this.src='https://a.espncdn.com/combiner/i?img=/i/headshots/noplayer.png'">
+                    <img class="main-photo" src="${getHeadshot(p.espnId)}" onerror="this.src='https://a.espncdn.com/combiner/i?img=/i/headshots/noplayer.png&w=200&h=150'">
                 </div>
             </div>
             <div class="card-body">
@@ -233,18 +240,18 @@
                 
                 <div class="value-meter">
                     <div class="meter-row">
-                        <span class="meter-label">STATISTICAL PRODUCTION (ACTUAL ON-COURT PERFORMANCE)</span>
+                        <span class="meter-label">PRODUCTION (ACTUAL ON-COURT PERFORMANCE)</span>
                         <div class="bar-container"><div class="bar-fill" style="width: ${p.performance}%; background: ${mainColor};"></div></div>
                     </div>
                     <div class="meter-row">
-                        <span class="meter-label">MARKET EXPECTATION (HYPE, SEARCH VOLUME & SALARY)</span>
-                        <div class="bar-container"><div class="bar-fill" style="width: ${p.expectation}%; background: ${dimColor};"></div></div>
+                        <span class="meter-label">EXPECTATION (HYPE, SEARCH VOLUME & SALARY)</span>
+                        <div class="bar-container"><div class="bar-fill" style="width: ${p.expectation}%; background: ${dimColor}; opacity: 0.8;"></div></div>
                     </div>
                 </div>
 
                 <div class="stats-row">
-                    <div class="stat"><small>INDEX STATUS</small><div style="color: ${mainColor}; font-size: 1rem;">${isUnder ? 'GENUINELY UNDERRATED' : 'STATISTICALLY OVERRATED'}</div></div>
-                    <div class="stat"><small>VALUE GAP</small><div style="color: ${mainColor}">${p.trueValue.toFixed(2)}</div></div>
+                    <div class="stat"><small>INDEX STATUS</small><div style="color: ${mainColor}; font-size: 1rem;">${isUnder ? 'UNDERRATED' : 'OVERRATED'}</div></div>
+                    <div class="stat"><small>THE VALUE GAP</small><div style="color: ${mainColor}">${p.trueValue.toFixed(2)}</div></div>
                 </div>
                 
                 <div class="analysis-text" style="border-left-color: ${mainColor}">
@@ -263,7 +270,7 @@
             div.className = "mini-card";
             div.onclick = () => showPlayer(p);
             div.innerHTML = `
-                <div class="mini-avatar"><img src="${getHeadshot(p.espnId)}" onerror="this.src='https://a.espncdn.com/combiner/i?img=/i/headshots/noplayer.png'"></div>
+                <div class="mini-avatar"><img src="${getHeadshot(p.espnId)}" onerror="this.src='https://a.espncdn.com/combiner/i?img=/i/headshots/noplayer.png&w=100&h=75'"></div>
                 <div class="mini-name">${p.name}</div>
             `;
             featuredGrid.appendChild(div);
@@ -279,7 +286,7 @@
             <div class="compare-visual">
                 <div class="comp-player">
                     <div class="comp-photo-circle" style="border-color: ${a.trueValue >= 0 ? 'var(--accent)' : 'var(--overrated)'}">
-                        <img src="${getHeadshot(a.espnId)}" onerror="this.src='https://a.espncdn.com/combiner/i?img=/i/headshots/noplayer.png'">
+                        <img src="${getHeadshot(a.espnId)}" onerror="this.src='https://a.espncdn.com/combiner/i?img=/i/headshots/noplayer.png&w=100&h=75'">
                     </div>
                     <div style="font-size: 0.8rem; font-weight: 900; color: #ccc;">${a.name.toUpperCase()}</div>
                     <div style="font-weight: 900; font-size: 1.5rem; color: ${a.trueValue >= 0 ? 'var(--accent)' : 'var(--overrated)'}">${a.trueValue.toFixed(2)}</div>
@@ -287,7 +294,7 @@
                 <div class="vs-divider">VS</div>
                 <div class="comp-player">
                     <div class="comp-photo-circle" style="border-color: ${b.trueValue >= 0 ? 'var(--accent)' : 'var(--overrated)'}">
-                        <img src="${getHeadshot(b.espnId)}" onerror="this.src='https://a.espncdn.com/combiner/i?img=/i/headshots/noplayer.png'">
+                        <img src="${getHeadshot(b.espnId)}" onerror="this.src='https://a.espncdn.com/combiner/i?img=/i/headshots/noplayer.png&w=100&h=75'">
                     </div>
                     <div style="font-size: 0.8rem; font-weight: 900; color: #ccc;">${b.name.toUpperCase()}</div>
                     <div style="font-weight: 900; font-size: 1.5rem; color: ${b.trueValue >= 0 ? 'var(--accent)' : 'var(--overrated)'}">${b.trueValue.toFixed(2)}</div>
